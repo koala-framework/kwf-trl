@@ -1,0 +1,10 @@
+#!/usr/bin/env php
+<?php
+require __DIR__ . '/../vendor/autoload.php';
+
+use Symfony\Component\Console\Application;
+use Kwf\Trl\ConvertTrlXmlToPoCommand;
+
+$application = new Application('kwf-trl', '0.1');
+$application->add(new ConvertTrlXmlToPoCommand);
+$application->run();

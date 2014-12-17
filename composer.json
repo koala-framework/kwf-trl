@@ -1,0 +1,23 @@
+{
+    "name": "koala-framework/kwf-trl",
+    "description": "Translation scripts for Koala Framework based applications",
+    "repositories": [{
+        "type": "vcs",
+        "url": "https://github.com/mier85/PHP-po-parser"
+    }],
+    "require": {
+        "symfony/console": "2.5.6",
+        "sepia/po-parser": "dev-master"
+    },
+    "license": "BSD-2-Clause",
+    "authors": [
+        {
+            "name": "Benjamin Hohenwarter",
+            "email": "bh@vivid-planet.com"
+        }
+    ],
+    "autoload": {
+        "psr-0": { "Kwf\\Trl\\": "" }
+    },
+    "bin": ["bin/trl"]
+}
