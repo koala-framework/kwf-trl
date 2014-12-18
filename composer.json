@@ -3,11 +3,12 @@
     "description": "Translation scripts for Koala Framework based applications",
     "repositories": [{
         "type": "vcs",
-        "url": "https://github.com/mier85/PHP-po-parser"
+        "url": "https://github.com/Ben-Ho/PHP-po-parser"
     }],
     "require": {
         "symfony/console": "2.5.6",
-        "sepia/po-parser": "dev-master"
+        "sepia/po-parser": "dev-master",
+        "nikic/php-parser": "1.0.2"
     },
     "license": "BSD-2-Clause",
     "authors": [
