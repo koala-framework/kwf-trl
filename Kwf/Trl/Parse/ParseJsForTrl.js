@@ -1,15 +1,5 @@
 var esprima = require('esprima');
-if (!esprima) {
-    console.log('Esprima has to be installed.');
-    console.log('npm install esprima');
-    process.exit(1);
-}
-
 var fs = require('fs');
-if (!fs) {
-    console.log('fs could not be loaded.');
-    process.exit(1);
-}
 
 var args = process.argv.slice(2);
 if (!args[0]) {
