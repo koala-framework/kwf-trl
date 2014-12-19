@@ -1,5 +1,5 @@
 <?php
-namespace Kwf\Trl;
+namespace Kwf\Trl\Convert;
 
 class TrlXmlToPoConverter
 {
