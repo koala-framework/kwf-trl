@@ -24,29 +24,29 @@ class ParseCodeCommand extends Command
         $sourceDir = $input->getArgument('dir');
 
         // check requirements for js-parser fulfilled
-        $output = null;
+        $cmdOutput = null;
         $ret = null;
-        exec('node -v', $output, $ret);
+        exec('node -v', $cmdOutput, $ret);
         if ($ret == 1) {
-            echo 'Node needs to be installed';
-            echo 'sudo apt-get install nodejs';
+            $output->writeln('<error>Node needs to be installed</error>');
+            $output->writeln('<error>sudo apt-get install nodejs</error>');
             exit(1);
         }
 
         // call js parser
-        echo "Parsing files: js\n";
+        $output->writeln('Parsing files: js');
         $cmd = 'node Kwf/Trl/Parse/ParseJsForTrl.js '.$sourceDir;
-        $output = null;
+        $cmdOutput = null;
         $ret = null;
-        exec($cmd, $output, $ret);
+        exec($cmd, $cmdOutput, $ret);
         if ($ret == 1) {
-            echo 'Exception with JS parser: '.$output[0];
+            $output->writeln('<error>Exception with JS parser: '.$cmdOutput[0].'</error>');
             exit(1);
         }
-        $jsTrls = json_decode($output[0], true);
+        $jsTrls = json_decode($cmdOutput[0], true);
 
         // call php parser
-        echo "Parsing files: php, tpl\n";
+        $output->writeln('Parsing files: php, tpl');
         $trlPhpParser = new ParsePhpForTrl;
         $trlPhpParser->setCodeDirectory($sourceDir);
         $phpTrls = $trlPhpParser->parseCodeDirectory();
@@ -55,7 +55,7 @@ class ParseCodeCommand extends Command
         $trls = array_merge_recursive($jsTrls, $phpTrls);
 
         // generate po file
-        echo "Generating po file\n";
+        $output->writeln('Generating po file');
         $mask = $input->getArgument('mask');
         $poFile = new \Sepia\PoParser;
         $poFile->setInsertOnUpdate(true);
