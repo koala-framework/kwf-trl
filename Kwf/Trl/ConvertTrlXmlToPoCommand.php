@@ -33,6 +33,5 @@ class ConvertTrlXmlToPoCommand extends Command
         $trlXmlToPoConverter->convertToPo();
 
         $trlXmlToPoConverter->writePoContent($poPath);
-        exit();
     }
 }

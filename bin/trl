@@ -5,8 +5,10 @@ require __DIR__ . '/../vendor/autoload.php';
 use Symfony\Component\Console\Application;
 use Kwf\Trl\ConvertTrlXmlToPoCommand;
 use Kwf\Trl\ParseCodeCommand;
+use Kwf\Trl\TrlCollectCommand;
 
 $application = new Application('kwf-trl', '0.1');
 $application->add(new ConvertTrlXmlToPoCommand);
 $application->add(new ParseCodeCommand);
+$application->add(new TrlCollectCommand);
 $application->run();

@@ -87,7 +87,6 @@ class ParseCodeCommand extends Command
             }
         }
         $poFile->writeFile($poFilePath);
-        exit();
     }
 
     private function _parseDirectoryForTrl($sourceDir, $output)
