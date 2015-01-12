@@ -58,7 +58,6 @@ class ParseCodeCommand extends Command
         $output->writeln('Generating po file');
         $mask = $input->getArgument('mask');
         $poFile = new \Sepia\PoParser;
-        $poFile->setInsertOnUpdate(true);
         foreach ($trls as $trlType => $trlsForType) {
             if ($mask == 'trlKwf' && strpos(strtolower($trlType), 'kwf') === false) {
                 continue;
@@ -68,21 +67,21 @@ class ParseCodeCommand extends Command
 
             foreach ($trlsForType as $trl) {
                 if (strpos($trlType, 'trlcp') !== false) {
-                    $poFile->updateEntry($trl['single']);
+                    $poFile->updateEntry($trl['single'], $trl['single'], array(), array(), array(), true);
                     $poFile->setEntryPlural($trl['single'], $trl['plural']);
                     $poFile->setEntryContext($trl['single'], $trl['context']);
                 } else if (strpos($trlType, 'trlc') !== false) {
-                    $poFile->updateEntry($trl['msg']);
+                    $poFile->updateEntry($trl['msg'], $trl['msg'], array(), array(), array(), true);
                     $poFile->setEntryContext($trl['msg'], $trl['context']);
                 } else if (strpos($trlType, 'trlp') !== false) {
-                    $poFile->updateEntry($trl['single']);
+                    $poFile->updateEntry($trl['single'], $trl['single'], array(), array(), array(), true);
                     $poFile->setEntryPlural($trl['single'], $trl['plural']);
                 } else if (strpos($trlType, 'trl') !== false) {
-                    $poFile->updateEntry($trl);
+                    $poFile->updateEntry($trl, $trl, array(), array(), array(), true);
                 }
             }
         }
-        $poFile->write($poFilePath);
+        $poFile->writeFile($poFilePath);
         exit();
     }
 }
