@@ -15,16 +15,17 @@ class ParseCodeCommand extends Command
             ->setDescription('Parse code for trl and trlKwf function calls')
             ->addArgument('path', InputArgument::OPTIONAL, 'Path for po-file', 'trl.po')
             ->addArgument('mask', InputArgument::OPTIONAL, 'Mask to parse for. This can be trl or trlKwf', 'trlKwf')
-            ->addArgument('dir', InputArgument::OPTIONAL, 'Path to source directory', '.');
+            ->addArgument('dir', InputArgument::OPTIONAL, 'Path to source directory', '.')
+            ->addArgument('kwf', InputArgument::OPTIONAL, 'Path to kwf directory (only if parsing package)');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $poFilePath = $input->getArgument('path');
         $sourceDir = $input->getArgument('dir');
+        $kwfDir = $input->getArgument('kwf');
 
         // check requirements for js-parser fulfilled
-        $cmdOutput = null;
         $ret = null;
         exec('node -v', $cmdOutput, $ret);
         if ($ret == 1) {
@@ -33,6 +34,64 @@ class ParseCodeCommand extends Command
             exit(1);
         }
 
+        // parse package
+        $output->writeln('Parsing source directory...');
+        $trls = $this->_parseDirectoryForTrl($sourceDir, $output);
+
+        $kwfTrls = array(
+            'trlcp' => array(),
+            'trlc' => array(),
+            'trlp' => array(),
+            'trl' => array()
+        );
+        if ($kwfDir) {
+            $output->writeln('Parsing kwf directory...');
+            $kwfTrls = $this->_parseDirectoryForTrl($kwfDir, $output);
+        }
+
+        // generate po file
+        $output->writeln('Generating po file');
+        $mask = $input->getArgument('mask');
+        $poFile = new \Sepia\PoParser;
+        foreach ($trls as $trlType => $trlsForType) {
+            if ($mask == 'trlKwf' && strpos(strtolower($trlType), 'kwf') === false) {
+                continue;
+            } else if ($mask == 'trl' && strpos(strtolower($trlType), 'kwf') !== false) {
+                continue;
+            }
+
+            foreach ($trlsForType as $trl) {
+                // Check if translation is in kwf
+                $trlFoundInKwf = false;
+                foreach ($kwfTrls as $kwfTrlsOfType) {
+                    if (in_array($trl, $kwfTrlsOfType)) {
+                        $trlFoundInKwf = true;
+                        break;
+                    }
+                }
+                if ($trlFoundInKwf) continue;
+
+                if (strpos($trlType, 'trlcp') !== false) {
+                    $poFile->updateEntry($trl['single'], $trl['single'], array(), array(), array(), true);
+                    $poFile->setEntryPlural($trl['single'], $trl['plural']);
+                    $poFile->setEntryContext($trl['single'], $trl['context']);
+                } else if (strpos($trlType, 'trlc') !== false) {
+                    $poFile->updateEntry($trl['msg'], $trl['msg'], array(), array(), array(), true);
+                    $poFile->setEntryContext($trl['msg'], $trl['context']);
+                } else if (strpos($trlType, 'trlp') !== false) {
+                    $poFile->updateEntry($trl['single'], $trl['single'], array(), array(), array(), true);
+                    $poFile->setEntryPlural($trl['single'], $trl['plural']);
+                } else if (strpos($trlType, 'trl') !== false) {
+                    $poFile->updateEntry($trl, $trl, array(), array(), array(), true);
+                }
+            }
+        }
+        $poFile->writeFile($poFilePath);
+        exit();
+    }
+
+    private function _parseDirectoryForTrl($sourceDir, $output)
+    {
         // call js parser
         $output->writeln('Parsing files: js');
         $cmd = 'node Kwf/Trl/Parse/ParseJsForTrl.js '.$sourceDir;
@@ -52,36 +111,6 @@ class ParseCodeCommand extends Command
         $phpTrls = $trlPhpParser->parseCodeDirectory();
         $exceptions = $trlPhpParser->getExceptions();
 
-        $trls = array_merge_recursive($jsTrls, $phpTrls);
-
-        // generate po file
-        $output->writeln('Generating po file');
-        $mask = $input->getArgument('mask');
-        $poFile = new \Sepia\PoParser;
-        foreach ($trls as $trlType => $trlsForType) {
-            if ($mask == 'trlKwf' && strpos(strtolower($trlType), 'kwf') === false) {
-                continue;
-            } else if ($mask == 'trl' && strpos(strtolower($trlType), 'kwf') !== false) {
-                continue;
-            }
-
-            foreach ($trlsForType as $trl) {
-                if (strpos($trlType, 'trlcp') !== false) {
-                    $poFile->updateEntry($trl['single'], $trl['single'], array(), array(), array(), true);
-                    $poFile->setEntryPlural($trl['single'], $trl['plural']);
-                    $poFile->setEntryContext($trl['single'], $trl['context']);
-                } else if (strpos($trlType, 'trlc') !== false) {
-                    $poFile->updateEntry($trl['msg'], $trl['msg'], array(), array(), array(), true);
-                    $poFile->setEntryContext($trl['msg'], $trl['context']);
-                } else if (strpos($trlType, 'trlp') !== false) {
-                    $poFile->updateEntry($trl['single'], $trl['single'], array(), array(), array(), true);
-                    $poFile->setEntryPlural($trl['single'], $trl['plural']);
-                } else if (strpos($trlType, 'trl') !== false) {
-                    $poFile->updateEntry($trl, $trl, array(), array(), array(), true);
-                }
-            }
-        }
-        $poFile->writeFile($poFilePath);
-        exit();
+        return array_merge_recursive($jsTrls, $phpTrls);
     }
 }
