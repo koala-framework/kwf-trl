@@ -6,6 +6,7 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Kwf\Trl\Parse\ParsePhpForTrl;
+use Kwf\Trl\Parse\ParseJsForTrl;
 
 class ParseCodeCommand extends Command
 {
@@ -36,9 +37,9 @@ class ParseCodeCommand extends Command
 
         // parse package
         $output->writeln('Parsing source directory...');
-        $trls = $this->_parseDirectoryForTrl($sourceDir, $output);
+        $trlElements = $this->_parseDirectoryForTrl($sourceDir, $output);
 
-        $kwfTrls = array(
+        $kwfTrlElements = array(
             'trlcp' => array(),
             'trlc' => array(),
             'trlp' => array(),
@@ -46,14 +47,14 @@ class ParseCodeCommand extends Command
         );
         if ($kwfDir) {
             $output->writeln('Parsing kwf directory...');
-            $kwfTrls = $this->_parseDirectoryForTrl($kwfDir, $output);
+            $kwfTrlElements = $this->_parseDirectoryForTrl($kwfDir, $output);
         }
 
         // generate po file
         $output->writeln('Generating po file');
         $mask = $input->getArgument('mask');
         $poFile = new \Sepia\PoParser;
-        foreach ($trls as $trlType => $trlsForType) {
+        foreach ($trlElements as $trlElement) {
             if ($mask == 'trlKwf' && strpos(strtolower($trlType), 'kwf') === false) {
                 continue;
             } else if ($mask == 'trl' && strpos(strtolower($trlType), 'kwf') !== false) {
@@ -93,15 +94,9 @@ class ParseCodeCommand extends Command
     {
         // call js parser
         $output->writeln('Parsing files: js');
-        $cmd = 'node Kwf/Trl/Parse/ParseJsForTrl.js '.$sourceDir;
-        $cmdOutput = null;
-        $ret = null;
-        exec($cmd, $cmdOutput, $ret);
-        if ($ret == 1) {
-            $output->writeln('<error>Exception with JS parser: '.$cmdOutput[0].'</error>');
-            exit(1);
-        }
-        $jsTrls = json_decode($cmdOutput[0], true);
+        $trlJsParser = new ParseJsForTrl($sourceDir);
+        $jsTrls = $trlJsParser->parse();
+        var_dump($jsTrls);
 
         // call php parser
         $output->writeln('Parsing files: php, tpl');
