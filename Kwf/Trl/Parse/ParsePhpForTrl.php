@@ -1,10 +1,14 @@
 <?php
 namespace Kwf\Trl\Parse;
 
+use Kwf\Trl\Utils\SourceFileFinder;
+
 class ParsePhpForTrl {
     protected $_parser;
-    protected $_codeDirectory;
     protected $_codeContent;
+    protected $_sourceFileFinder;
+    protected $_directory;
+    protected $_errors;
 
     const ERROR_INVALID_STRING = 'invalidString';
     const ERROR_WRONG_NR_OF_ARGUMENTS = 'wrongNrOfArguments';
@@ -19,11 +23,15 @@ class ParsePhpForTrl {
     public function __construct($parser=null)
     {
         $this->_parser = $parser ? $parser : new \PhpParser\Parser(new \PhpParser\Lexer);
+        $this->_sourceFileFinder = new SourceFileFinder;
+        $this->_sourceFileFinder->setFileTypes(array('php', 'tpl'));
+        $this->_sourceFileFinder->setIgnoreDirectories(array('git', 'vendor'));
     }
 
     public function setCodeDirectory($dir)
     {
-        $this->_codeDirectory = $dir;
+        $this->_directory = $dir;
+        $this->_sourceFileFinder->setDirectory($dir);
     }
 
     public function setCodeContent($content)
@@ -33,36 +41,27 @@ class ParsePhpForTrl {
 
     public function parseCodeDirectory()
     {
-        return $this->_recursiveParseCodeDirectory($this->_codeDirectory);
-    }
-
-    private function _recursiveParseCodeDirectory($directory)
-    {
-        $translations = array();
-        $files = scandir($directory);
-        foreach ($files as $file) {
-            if ($file == '.') continue;
-            if ($file == '..') continue;
-            if ($file == '.git') continue;
-            if ($file == 'vendor') continue;
-
-            $path = $directory.'/'.$file;
-            if (is_dir($path)) {
-                $translations = array_merge_recursive($this->_recursiveParseCodeDirectory($path), $translations);
-            } else {
-                $splited = explode('.', $file);
-                $extension = $splited[count($splited)-1];
-                if (in_array($extension, array('php', 'tpl'))) {
-                    $this->_codeContent = file_get_contents($path);
-                    try {
-                        $translations = array_merge_recursive($translations, $this->parseContent());
-                    } catch (\PhpParser\Error $e) {
-                        $this->_exceptions[$path][] = $e->getMessage();
-                    }
+        $this->_errors = array();
+        $trlElements = array();
+        $initCwd = getcwd();
+        chdir($this->_directory);
+        foreach ($this->_sourceFileFinder->getFiles() as $file) {
+            $this->_codeContent = file_get_contents($file);
+            echo $file."\n";
+            try {
+                foreach ($this->parseContent() as $trlElementOfFile) {
+                    $trlElementOfFile['file'] = $file;
+                    $trlElements[] = $trlElementOfFile;
                 }
+            } catch(\PhpParser\Error $e) {
+                $this->_errors[] = array(
+                    'error' => $e,
+                    'file' => $this->_directory.'/'.$file
+                );
             }
         }
-        return $translations;
+        chdir($initCwd);
+        return $trlElements;
     }
 
     public function parseContent()
@@ -72,5 +71,10 @@ class ParsePhpForTrl {
         $traverser->addVisitor($visitor);
         $statments = $traverser->traverse($this->_parser->parse($this->_codeContent));
         return $visitor->getTranslations();
+    }
+
+    public function getErrors()
+    {
+        return $this->_errors;
     }
 }
