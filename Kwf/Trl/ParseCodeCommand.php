@@ -39,55 +39,58 @@ class ParseCodeCommand extends Command
         $output->writeln('Parsing source directory...');
         $trlElements = $this->_parseDirectoryForTrl($sourceDir, $output);
 
-        $kwfTrlElements = array(
-            'trlcp' => array(),
-            'trlc' => array(),
-            'trlp' => array(),
-            'trl' => array()
-        );
+        $kwfTrlElements = array();
         if ($kwfDir) {
             $output->writeln('Parsing kwf directory...');
             $kwfTrlElements = $this->_parseDirectoryForTrl($kwfDir, $output);
         }
 
         // generate po file
+        $output->writeln();
         $output->writeln('Generating po file');
         $mask = $input->getArgument('mask');
         $poFile = new \Sepia\PoParser;
+        $errors = array();
         foreach ($trlElements as $trlElement) {
-            if ($mask == 'trlKwf' && strpos(strtolower($trlType), 'kwf') === false) {
-                continue;
-            } else if ($mask == 'trl' && strpos(strtolower($trlType), 'kwf') !== false) {
+            // Check if translation is in kwf
+            $trlFoundInKwf = false;
+            foreach ($kwfTrlElements as $kwfTrlElement) {
+                if ($kwfTrlElement['type'] == $trlElement['type']
+                    && $kwfTrlElement['text'] == $trlElement['text']
+                ) {
+                    $trlFoundInKwf = true;
+                    break;
+                }
+            }
+            if ($trlFoundInKwf) continue;
+            if (isset($trlElement['error_short'])) {
+                $errors[] = $trlElement;
                 continue;
             }
 
-            foreach ($trlsForType as $trl) {
-                // Check if translation is in kwf
-                $trlFoundInKwf = false;
-                foreach ($kwfTrls as $kwfTrlsOfType) {
-                    if (in_array($trl, $kwfTrlsOfType)) {
-                        $trlFoundInKwf = true;
-                        break;
-                    }
-                }
-                if ($trlFoundInKwf) continue;
-
-                if (strpos($trlType, 'trlcp') !== false) {
-                    $poFile->updateEntry($trl['single'], $trl['single'], array(), array(), array(), true);
-                    $poFile->setEntryPlural($trl['single'], $trl['plural']);
-                    $poFile->setEntryContext($trl['single'], $trl['context']);
-                } else if (strpos($trlType, 'trlc') !== false) {
-                    $poFile->updateEntry($trl['msg'], $trl['msg'], array(), array(), array(), true);
-                    $poFile->setEntryContext($trl['msg'], $trl['context']);
-                } else if (strpos($trlType, 'trlp') !== false) {
-                    $poFile->updateEntry($trl['single'], $trl['single'], array(), array(), array(), true);
-                    $poFile->setEntryPlural($trl['single'], $trl['plural']);
-                } else if (strpos($trlType, 'trl') !== false) {
-                    $poFile->updateEntry($trl, $trl, array(), array(), array(), true);
-                }
+            if ($trlElement['type'] == 'trlcp') {
+                $poFile->updateEntry($trlElement['text'], $trlElement['text'], array(), array(), array(), true);
+                $poFile->setEntryPlural($trlElement['text'], $trlElement['plural']);
+                $poFile->setEntryContext($trlElement['text'], $trlElement['context']);
+            } else if ($trlElement['type'] ==  'trlc') {
+                $poFile->updateEntry($trlElement['text'], $trlElement['text'], array(), array(), array(), true);
+                $poFile->setEntryContext($trlElement['text'], $trlElement['context']);
+            } else if ($trlElement['type'] == 'trlp') {
+                $poFile->updateEntry($trlElement['text'], $trlElement['text'], array(), array(), array(), true);
+                $poFile->setEntryPlural($trlElement['text'], $trlElement['plural']);
+            } else if ($trlElement['type'] == 'trl') {
+                $poFile->updateEntry($trlElement['text'], $trlElement['text'], array(), array(), array(), true);
             }
         }
+        $output->writeln('Write Po File');
         $poFile->writeFile($poFilePath);
+
+        if (count($errors)) {
+            $output->writeln('Trl Errors:');
+            foreach ($errors as $error) {
+                var_dump($error);
+            }
+        }
     }
 
     private function _parseDirectoryForTrl($sourceDir, $output)
@@ -96,15 +99,18 @@ class ParseCodeCommand extends Command
         $output->writeln('Parsing files: js');
         $trlJsParser = new ParseJsForTrl($sourceDir);
         $jsTrls = $trlJsParser->parse();
-        var_dump($jsTrls);
 
         // call php parser
         $output->writeln('Parsing files: php, tpl');
         $trlPhpParser = new ParsePhpForTrl;
         $trlPhpParser->setCodeDirectory($sourceDir);
         $phpTrls = $trlPhpParser->parseCodeDirectory();
-        $exceptions = $trlPhpParser->getExceptions();
-
+        $output->writeln();
+        $output->writeln('File Errors');
+        foreach ($trlPhpParser->getErrors() as $error) {
+            $output->writeln($error['file']);
+            $output->writeln($error['error']->getRawMessage());
+        }
         return array_merge_recursive($jsTrls, $phpTrls);
     }
 }
