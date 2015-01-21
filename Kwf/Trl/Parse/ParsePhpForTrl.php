@@ -5,7 +5,16 @@ class ParsePhpForTrl {
     protected $_parser;
     protected $_codeDirectory;
     protected $_codeContent;
-    protected $_exceptions = array();
+
+    const ERROR_INVALID_STRING = 'invalidString';
+    const ERROR_WRONG_NR_OF_ARGUMENTS = 'wrongNrOfArguments';
+    const ERROR_WRONG_ARGUMENT_TYPE = 'wrongArgumentType';
+
+    protected $_errorMessages = array(
+        self::ERROR_INVALID_STRING => 'String is not valid. Unallowed characters are used',
+        self::ERROR_WRONG_NR_OF_ARGUMENTS => 'To few arguments.',
+        self::ERROR_WRONG_ARGUMENT_TYPE => 'Wrong argument supplied'
+    );
 
     public function __construct($parser=null)
     {
@@ -25,11 +34,6 @@ class ParsePhpForTrl {
     public function parseCodeDirectory()
     {
         return $this->_recursiveParseCodeDirectory($this->_codeDirectory);
-    }
-
-    public function getExceptions()
-    {
-        return $this->_exceptions;
     }
 
     private function _recursiveParseCodeDirectory($directory)

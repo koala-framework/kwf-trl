@@ -3,27 +3,7 @@ namespace Kwf\Trl\Parse;
 
 class ParsePhpForTrlVisitor extends \PhpParser\NodeVisitorAbstract
 {
-    protected $_translations = array(
-        'trl' => array(),
-        'trlc' => array(),
-        'trlp' => array(),
-        'trlcp' => array(),
-
-        'trlKwf' => array(),
-        'trlcKwf' => array(),
-        'trlpKwf' => array(),
-        'trlcpKwf' => array(),
-
-        'trlStatic' => array(),
-        'trlcStatic' => array(),
-        'trlpStatic' => array(),
-        'trlcpStatic' => array(),
-
-        'trlKwfStatic' => array(),
-        'trlcKwfStatic' => array(),
-        'trlpKwfStatic' => array(),
-        'trlcpKwfStatic' => array()
-    );
+    protected $_trlElements = array();
 
     public function enterNode(\PhpParser\Node $node)
     {
@@ -31,32 +11,86 @@ class ParsePhpForTrlVisitor extends \PhpParser\NodeVisitorAbstract
             if (!($node->name instanceof \PhpParser\Node\Name)) return;
 
             $functionName = (string)$node->name;
-            if (array_key_exists($functionName, $this->_translations)) {
-                if (strpos($functionName, 'trlcp') !== false) {
-                    $this->_translations[$functionName][] = array(
-                        'context' => $node->args[0]->value->value,
-                        'single' => $node->args[1]->value->value,
-                        'plural' => $node->args[2]->value->value,
-                    );
-                } else if (strpos($functionName, 'trlc') !== false) {
-                    $this->_translations[$functionName][] = array(
-                        'context' => $node->args[0]->value->value,
-                        'msg' => $node->args[1]->value->value,
-                    );
-                } else if (strpos($functionName, 'trlp') !== false) {
-                    $this->_translations[$functionName][] = array(
-                        'single' => $node->args[0]->value->value,
-                        'plural' => $node->args[1]->value->value,
-                    );
-                } else if (strpos($functionName, 'trl') !== false) {
-                    $this->_translations[$functionName][] = $node->args[0]->value->value;
+            $trlElement = null;
+            if (strpos($functionName, 'trlcp') !== false) {
+                $trlElement = array('type' => 'trlcp');
+                if (count($node->args) != 3 && count($node->args) != 4) {
+                    $trlElement['error_short'] = ParsePhpForTrl::ERROR_WRONG_NR_OF_ARGUMENTS;
+                } else if ($node->args[0]->value->getType() != 'Scalar_String'
+                    || $node->args[1]->value->getType() != 'Scalar_String'
+                    || $node->args[2]->value->getType() != 'Scalar_String'
+                    || $node->args[3]->value->getType() != 'Scalar_LNumber'
+                ) {
+                    //TODO check ob wirklich scalar_integer
+                    $trlElement['error_short'] = ParsePhpForTrl::ERROR_WRONG_ARGUMENT_TYPE;
+                } else {
+                    $trlElement['text'] = $node->args[1]->value->value;
+                    $trlElement['context'] = $node->args[0]->value->value;
+                    $trlElement['plural'] = $node->args[2]->value->value;
+                    $trlElement['before'] = $functionName.'('.'\''.$node->args[0]->value->value.'\', '
+                                                 .'\''.$node->args[1]->value->value.'\', '
+                                                 .'\''.$node->args[2]->value->value.'\', '
+                                                 .$node->args[3]->value->value
+                                                 .')';
                 }
+            } else if (strpos($functionName, 'trlc') !== false) {
+                $trlElement = array('type' => 'trlc');
+                if (count($node->args) != 2 && count($node->args) != 3) {
+                    $trlElement['error_short'] = ParsePhpForTrl::ERROR_WRONG_NR_OF_ARGUMENTS;
+                } else if ($node->args[0]->value->getType() != 'Scalar_String'
+                    || $node->args[1]->value->getType() != 'Scalar_String'
+                ) {
+                    $trlElement['error_short'] = ParsePhpForTrl::ERROR_WRONG_ARGUMENT_TYPE;
+                } else {
+                    $trlElement['context'] = $node->args[0]->value->value;
+                    $trlElement['text'] = $node->args[1]->value->value;
+                    $trlElement['before'] = $functionName.'('.'\''.$node->args[0]->value->value.'\', '
+                                                 .'\''.$node->args[1]->value->value.'\''
+                                                 .')';
+                }
+            } else if (strpos($functionName, 'trlp') !== false) {
+                $trlElement = array('type' => 'trlp');
+                if (count($node->args) != 3) {
+                    $trlElement['error_short'] = ParsePhpForTrl::ERROR_WRONG_NR_OF_ARGUMENTS;
+                } else if($node->args[0]->value->getType() != 'Scalar_String'
+                    || $node->args[1]->value->getType() != 'Scalar_String'
+                    || $node->args[2]->value->getType() != 'Scalar_LNumber'
+                ) {
+                    $trlElement['error_short'] = ParsePhpForTrl::ERROR_WRONG_ARGUMENT_TYPE;
+                } else {
+                    $trlElement['text'] = $node->args[0]->value->value;
+                    $trlElement['plural'] = $node->args[1]->value->value;
+                    $trlElement['before'] = $functionName.'('.'\''.$node->args[0]->value->value.'\', '
+                                                 .'\''.$node->args[1]->value->value.'\', '
+                                                 .$node->args[2]->value->value
+                                                 .')';
+                }
+            } else if (strpos($functionName, 'trl') !== false) {
+                $trlElement = array('type' => 'trl');
+                if (count($node->args) != 1 && count($node->args) != 2) {
+                    $trlElement['error_short'] = ParsePhpForTrl::ERROR_WRONG_NR_OF_ARGUMENTS;
+                } else if($node->args[0]->value->getType() != 'Scalar_String') {
+                    $trlElement['error_short'] = ParsePhpForTrl::ERROR_WRONG_ARGUMENT_TYPE;
+                } else {
+                    $trlElement['text'] = $node->args[0]->value->value;
+                    $trlElement['before'] = $functionName.'(\''.$node->args[0]->value->value.'\')';
+                }
+            }
+            if ($trlElement) {
+                $trlElement['linenr'] = $node->getLine();
+                $trlElement['source'] = strpos($functionName, 'Kwf') !== false ? 'kwf' : 'web';
+                if (isset($trlElement['text'])
+                    && ($trlElement['text'] == "\n" || $trlElement['text'] == "")
+                ) {
+                    $trlElement['error_short'] = ParsePhpForTrl::ERROR_INVALID_STRING;
+                }
+                $this->_trlElements[] = $trlElement;
             }
         }
     }
 
     public function getTranslations()
     {
-        return $this->_translations;
+        return $this->_trlElements;
     }
 }
