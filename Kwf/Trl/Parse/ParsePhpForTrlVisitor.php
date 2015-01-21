@@ -12,7 +12,7 @@ class ParsePhpForTrlVisitor extends \PhpParser\NodeVisitorAbstract
 
             $functionName = (string)$node->name;
             $trlElement = null;
-            if (strpos($functionName, 'trlcp') !== false) {
+            if (strpos($functionName, 'trlcp') === 0) {
                 $trlElement = array('type' => 'trlcp');
                 if (count($node->args) != 3 && count($node->args) != 4) {
                     $trlElement['error_short'] = ParsePhpForTrl::ERROR_WRONG_NR_OF_ARGUMENTS;
@@ -33,7 +33,7 @@ class ParsePhpForTrlVisitor extends \PhpParser\NodeVisitorAbstract
                                                  .$node->args[3]->value->value
                                                  .')';
                 }
-            } else if (strpos($functionName, 'trlc') !== false) {
+            } else if (strpos($functionName, 'trlc') === 0) {
                 $trlElement = array('type' => 'trlc');
                 if (count($node->args) != 2 && count($node->args) != 3) {
                     $trlElement['error_short'] = ParsePhpForTrl::ERROR_WRONG_NR_OF_ARGUMENTS;
@@ -48,7 +48,7 @@ class ParsePhpForTrlVisitor extends \PhpParser\NodeVisitorAbstract
                                                  .'\''.$node->args[1]->value->value.'\''
                                                  .')';
                 }
-            } else if (strpos($functionName, 'trlp') !== false) {
+            } else if (strpos($functionName, 'trlp') === 0) {
                 $trlElement = array('type' => 'trlp');
                 if (count($node->args) != 3) {
                     $trlElement['error_short'] = ParsePhpForTrl::ERROR_WRONG_NR_OF_ARGUMENTS;
@@ -65,7 +65,7 @@ class ParsePhpForTrlVisitor extends \PhpParser\NodeVisitorAbstract
                                                  .$node->args[2]->value->value
                                                  .')';
                 }
-            } else if (strpos($functionName, 'trl') !== false) {
+            } else if (strpos($functionName, 'trl') === 0) {
                 $trlElement = array('type' => 'trl');
                 if (count($node->args) != 1 && count($node->args) != 2) {
                     $trlElement['error_short'] = ParsePhpForTrl::ERROR_WRONG_NR_OF_ARGUMENTS;
