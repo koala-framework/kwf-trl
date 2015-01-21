@@ -47,7 +47,6 @@ class ParsePhpForTrl {
         chdir($this->_directory);
         foreach ($this->_sourceFileFinder->getFiles() as $file) {
             $this->_codeContent = file_get_contents($file);
-            echo $file."\n";
             try {
                 foreach ($this->parseContent() as $trlElementOfFile) {
                     $trlElementOfFile['file'] = $file;
