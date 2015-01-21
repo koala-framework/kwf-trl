@@ -19,7 +19,6 @@ class ParsePhpForTrlVisitor extends \PhpParser\NodeVisitorAbstract
                 } else if ($node->args[0]->value->getType() != 'Scalar_String'
                     || $node->args[1]->value->getType() != 'Scalar_String'
                     || $node->args[2]->value->getType() != 'Scalar_String'
-                    || $node->args[3]->value->getType() != 'Scalar_LNumber'
                 ) {
                     //TODO check ob wirklich scalar_integer
                     $trlElement['error_short'] = ParsePhpForTrl::ERROR_WRONG_ARGUMENT_TYPE;
@@ -54,7 +53,6 @@ class ParsePhpForTrlVisitor extends \PhpParser\NodeVisitorAbstract
                     $trlElement['error_short'] = ParsePhpForTrl::ERROR_WRONG_NR_OF_ARGUMENTS;
                 } else if($node->args[0]->value->getType() != 'Scalar_String'
                     || $node->args[1]->value->getType() != 'Scalar_String'
-                    || $node->args[2]->value->getType() != 'Scalar_LNumber'
                 ) {
                     $trlElement['error_short'] = ParsePhpForTrl::ERROR_WRONG_ARGUMENT_TYPE;
                 } else {
