@@ -69,6 +69,7 @@ class ParsePhpForTrl {
         $traverser = new \PhpParser\NodeTraverser;
         $visitor = new ParsePhpForTrlVisitor;
         $traverser->addVisitor($visitor);
+        ini_set('xdebug.max_nesting_level', 200);
         $statments = $traverser->traverse($this->_parser->parse($this->_codeContent));
         return $visitor->getTranslations();
     }
