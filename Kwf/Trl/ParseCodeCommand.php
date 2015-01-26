@@ -46,7 +46,7 @@ class ParseCodeCommand extends Command
         }
 
         // generate po file
-        $output->writeln();
+        $output->writeln('');
         $output->writeln('Generating po file');
         $mask = $input->getArgument('mask');
         $poFile = new \Sepia\PoParser;
@@ -105,7 +105,7 @@ class ParseCodeCommand extends Command
         $trlPhpParser = new ParsePhpForTrl;
         $trlPhpParser->setCodeDirectory($sourceDir);
         $phpTrls = $trlPhpParser->parseCodeDirectory();
-        $output->writeln();
+        $output->writeln('');
         $output->writeln('File Errors');
         foreach ($trlPhpParser->getErrors() as $error) {
             $output->writeln($error['file']);
