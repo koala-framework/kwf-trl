@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "e7e6e25a5a3ccd5028dd3a6c1fb02501",
+    "hash": "6e4230b0283d593e54447b604215300d",
     "packages": [
         {
             "name": "koala-framework/composer-extra-assets",
@@ -72,12 +72,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Ben-Ho/koala-framework.git",
-                "reference": "d37f0522e16fd6407df4ef367a9763d03c04d683"
+                "reference": "9a67ce7d0ef4969dc4b338c4e9779a799e4fad0d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Ben-Ho/koala-framework/zipball/d37f0522e16fd6407df4ef367a9763d03c04d683",
-                "reference": "d37f0522e16fd6407df4ef367a9763d03c04d683",
+                "url": "https://api.github.com/repos/Ben-Ho/koala-framework/zipball/9a67ce7d0ef4969dc4b338c4e9779a799e4fad0d",
+                "reference": "9a67ce7d0ef4969dc4b338c4e9779a799e4fad0d",
                 "shasum": ""
             },
             "require": {
@@ -90,7 +90,7 @@
                 "koala-framework/library-swfupload": "2.2.0.1",
                 "koala-framework/sourcemaps": "0.1.x-dev",
                 "koala-framework/zendframework1": "1.12.6.*",
-                "sepia/po-parser": "dev-master",
+                "sepia/po-parser": "4.2.0",
                 "symfony/process": "2.7.*",
                 "twig/twig": "1.16.1"
             },
@@ -146,7 +146,7 @@
             "support": {
                 "source": "https://github.com/Ben-Ho/koala-framework/tree/master-trl"
             },
-            "time": "2015-01-16 11:37:01"
+            "time": "2015-01-26 08:59:51"
         },
         {
             "name": "koala-framework/kwf-modernizr",
@@ -442,16 +442,16 @@
         },
         {
             "name": "sepia/po-parser",
-            "version": "dev-master",
+            "version": "4.2.0",
             "source": {
                 "type": "git",
-                "url": "https://github.com/Ben-Ho/PHP-po-parser.git",
-                "reference": "926e26dd5dc1496cfa6912f14a860c1001828a31"
+                "url": "https://github.com/raulferras/PHP-po-parser.git",
+                "reference": "8e5c3d5d6d5a4c6584249d82dc75eb1490cb8470"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Ben-Ho/PHP-po-parser/zipball/926e26dd5dc1496cfa6912f14a860c1001828a31",
-                "reference": "926e26dd5dc1496cfa6912f14a860c1001828a31",
+                "url": "https://api.github.com/repos/raulferras/PHP-po-parser/zipball/8e5c3d5d6d5a4c6584249d82dc75eb1490cb8470",
+                "reference": "8e5c3d5d6d5a4c6584249d82dc75eb1490cb8470",
                 "shasum": ""
             },
             "require": {
@@ -467,6 +467,7 @@
                     "Sepia": "src/"
                 }
             },
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -485,11 +486,7 @@
                 "i18n",
                 "po"
             ],
-            "support": {
-                "issues": "https://github.com/raulferras/PHP-po-parser/issues",
-                "source": "https://github.com/Ben-Ho/PHP-po-parser/tree/master"
-            },
-            "time": "2015-01-12 07:35:53"
+            "time": "2015-01-22 11:03:32"
         },
         {
             "name": "symfony/console",
@@ -553,12 +550,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/Process.git",
-                "reference": "eb512e3b08841f1e0e39960d69109e47c729988b"
+                "reference": "f3ab493718070b936e21b202422466db35c1c298"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/Process/zipball/eb512e3b08841f1e0e39960d69109e47c729988b",
-                "reference": "eb512e3b08841f1e0e39960d69109e47c729988b",
+                "url": "https://api.github.com/repos/symfony/Process/zipball/f3ab493718070b936e21b202422466db35c1c298",
+                "reference": "f3ab493718070b936e21b202422466db35c1c298",
                 "shasum": ""
             },
             "require": {
@@ -591,7 +588,7 @@
             ],
             "description": "Symfony Process Component",
             "homepage": "http://symfony.com",
-            "time": "2015-01-09 06:51:41"
+            "time": "2015-01-25 04:39:35"
         },
         {
             "name": "twig/twig",
@@ -1069,8 +1066,7 @@
     "aliases": [],
     "minimum-stability": "dev",
     "stability-flags": {
-        "koala-framework/koala-framework": 20,
-        "sepia/po-parser": 20
+        "koala-framework/koala-framework": 20
     },
     "prefer-stable": true,
     "platform": [],

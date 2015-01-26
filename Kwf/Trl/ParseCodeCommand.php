@@ -70,14 +70,14 @@ class ParseCodeCommand extends Command
 
             if ($trlElement['type'] == 'trlcp') {
                 $poFile->updateEntry($trlElement['text'], $trlElement['text'], array(), array(), array(), true);
-                $poFile->setEntryPlural($trlElement['text'], $trlElement['plural']);
-                $poFile->setEntryContext($trlElement['text'], $trlElement['context']);
+                $poFile->updateEntryPlural($trlElement['text'], $trlElement['plural']);
+                $poFile->updateEntryContext($trlElement['text'], $trlElement['context']);
             } else if ($trlElement['type'] ==  'trlc') {
                 $poFile->updateEntry($trlElement['text'], $trlElement['text'], array(), array(), array(), true);
-                $poFile->setEntryContext($trlElement['text'], $trlElement['context']);
+                $poFile->updateEntryContext($trlElement['text'], $trlElement['context']);
             } else if ($trlElement['type'] == 'trlp') {
                 $poFile->updateEntry($trlElement['text'], $trlElement['text'], array(), array(), array(), true);
-                $poFile->setEntryPlural($trlElement['text'], $trlElement['plural']);
+                $poFile->updateEntryPlural($trlElement['text'], $trlElement['plural']);
             } else if ($trlElement['type'] == 'trl') {
                 $poFile->updateEntry($trlElement['text'], $trlElement['text'], array(), array(), array(), true);
             }
