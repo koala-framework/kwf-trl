@@ -27,11 +27,6 @@ class ParsePhpForTrlVisitor extends \PhpParser\NodeVisitorAbstract
                     $trlElement['text'] = $node->args[1]->value->value;
                     $trlElement['context'] = $node->args[0]->value->value;
                     $trlElement['plural'] = $node->args[2]->value->value;
-                    $trlElement['before'] = $functionName.'('.'\''.$node->args[0]->value->value.'\', '
-                                                 .'\''.$node->args[1]->value->value.'\', '
-                                                 .'\''.$node->args[2]->value->value.'\', '
-                                                 .$node->args[3]->value->value
-                                                 .')';
                 }
             } else if ($functionName == 'trlc' || $functionName == 'trlcStatic'
                 || $functionName == 'trlcKwf' || $functionName == 'trlcKwfStatic'
@@ -46,9 +41,6 @@ class ParsePhpForTrlVisitor extends \PhpParser\NodeVisitorAbstract
                 } else {
                     $trlElement['context'] = $node->args[0]->value->value;
                     $trlElement['text'] = $node->args[1]->value->value;
-                    $trlElement['before'] = $functionName.'('.'\''.$node->args[0]->value->value.'\', '
-                                                 .'\''.$node->args[1]->value->value.'\''
-                                                 .')';
                 }
             } else if ($functionName == 'trlp' || $functionName == 'trlpStatic'
                 || $functionName == 'trlpKwf' || $functionName == 'trlpKwfStatic'
@@ -63,10 +55,6 @@ class ParsePhpForTrlVisitor extends \PhpParser\NodeVisitorAbstract
                 } else {
                     $trlElement['text'] = $node->args[0]->value->value;
                     $trlElement['plural'] = $node->args[1]->value->value;
-                    $trlElement['before'] = $functionName.'('.'\''.$node->args[0]->value->value.'\', '
-                                                 .'\''.$node->args[1]->value->value.'\', '
-                                                 .$node->args[2]->value->value
-                                                 .')';
                 }
             } else if ($functionName == 'trl' || $functionName == 'trlStatic'
                 || $functionName == 'trlKwf' || $functionName == 'trlKwfStatic'
@@ -78,7 +66,6 @@ class ParsePhpForTrlVisitor extends \PhpParser\NodeVisitorAbstract
                     $trlElement['error_short'] = ParsePhpForTrl::ERROR_WRONG_ARGUMENT_TYPE;
                 } else {
                     $trlElement['text'] = $node->args[0]->value->value;
-                    $trlElement['before'] = $functionName.'(\''.$node->args[0]->value->value.'\')';
                 }
             }
             if ($trlElement) {
