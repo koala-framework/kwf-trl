@@ -19,40 +19,67 @@ class ParseCodeCommand extends Command
         $this->setName('parseCode')
             ->setDescription('Parse code for trl and trlKwf function calls')
             ->addArgument('dir', InputArgument::OPTIONAL, 'Path to source directory', null)
-            ->addOption('path', 'p', InputOption::VALUE_REQUIRED, 'Path for po-file', 'trl.po')
+            ->addOption('poFile', 'p', InputOption::VALUE_REQUIRED, 'Path for po-file', 'trl.po')
             ->addOption('mask', 'm', InputOption::VALUE_REQUIRED, 'Mask to parse for. This can be trl or trlKwf', 'trlKwf')
             ->addOption('kwfpath', 'k', InputOption::VALUE_REQUIRED, 'Path to kwf po-file (only if parsing package)');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $sourceDir = $input->getArgument('dir');
-        $poFilePath = $input->getOption('path');
-        $kwfPoFilePath = $input->getOption('kwfpath');
-
-        // parse package
-        $output->writeln('Parsing source directory...');
-        $parser = new ParseAll($sourceDir);
-        $trlElements = $parser->parseDirectoryForTrl();
-
         $kwfTrlElements = array();
+        $kwfPoFilePath = $input->getOption('kwfpath');
         if ($kwfPoFilePath) {
-            $output->writeln('Parsing kwf directory...');
+            $output->writeln('<info>Reading kwf-po file</info>');
             $kwfPoFile = new \Sepia\PoParser;
             $kwfPoFile->parseFile($kwfPoFilePath);
             $trlElementsExtractor = new TrlElementsExtractor($kwfPoFile);
             $kwfTrlElements = $trlElementsExtractor->extractTrlElements();
         }
 
+        $initDir = getcwd();
+        $directory = $input->getArgument('dir');
+        $output->writeln('<info>Changing into directory</info>');
+        chdir($directory);
+        exec('git diff', $diff, $ret);
+        exec('git diff --cached', $diffCached, $ret);
+        if ($diff || $diffCached) {
+            $output->writeln('<error>Uncommited changes</error>');
+            exit;
+        }
+        chdir($initDir);
+
+        $trlElements = array();
+        $errors = array();
+        $git = new \Kwf_Util_Git($directory);
+        $git->fetch();
+        $initBranch = $git->getActiveBranch();
+        $output->writeln('<info>Iterating over branches matching "^[3-9]+.[0-9]+$" and >=3.9</info>');
+        foreach ($git->getBranches('-r') as $branch) {
+            if (strpos($branch, 'origin/') === false) continue;
+            $splited = explode('/', $branch);
+            // Only version 3.0 and up
+            if (!preg_match('/^[3-9]+.[0-9]+$/i', $splited[1])) continue;
+            if (version_compare($splited[1], '3.9', '<')) continue;
+
+            $output->writeln("<info>Checking out branch: $branch</info>");
+            $git->checkout($branch);
+            // parse package
+            $output->writeln('Parsing source directory...');
+            $parser = new ParseAll($directory);
+            $trlElements = array_merge($parser->parseDirectoryForTrl(), $trlElements);
+            $errors = array_merge($parser->getErrors(), $errors);
+        }
+        $git->checkout($initBranch);
+
         // generate po file
         $output->writeln('Generate Po-File...');
         $poFileGenerator = new PoFileGenerator($trlElements, $kwfTrlElements);
         $poFile = $poFileGenerator->generatePoFileObject();
-        $poFile->writeFile($poFilePath);
+        $poFile->writeFile($input->getOption('poFile'));
 
-        if (count($parser->getErrors())) {
+        if (count($errors)) {
             $output->writeln('Trl Errors:');
-            foreach ($parser->getErrors() as $error) {
+            foreach ($errors as $error) {
                 var_dump($error);
             }
         }
