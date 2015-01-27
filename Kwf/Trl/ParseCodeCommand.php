@@ -3,6 +3,7 @@ namespace Kwf\Trl;
 
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Kwf\Trl\Parse\ParsePhpForTrl;
@@ -14,17 +15,17 @@ class ParseCodeCommand extends Command
     {
         $this->setName('parseCode')
             ->setDescription('Parse code for trl and trlKwf function calls')
-            ->addArgument('path', InputArgument::OPTIONAL, 'Path for po-file', 'trl.po')
-            ->addArgument('mask', InputArgument::OPTIONAL, 'Mask to parse for. This can be trl or trlKwf', 'trlKwf')
-            ->addArgument('dir', InputArgument::OPTIONAL, 'Path to source directory', '.')
-            ->addArgument('kwf', InputArgument::OPTIONAL, 'Path to kwf directory (only if parsing package)');
+            ->addArgument('dir', InputArgument::OPTIONAL, 'Path to source directory', null)
+            ->addOption('path', 'p', InputOption::VALUE_REQUIRED, 'Path for po-file', 'trl.po')
+            ->addOption('mask', 'm', InputOption::VALUE_REQUIRED, 'Mask to parse for. This can be trl or trlKwf', 'trlKwf')
+            ->addOption('kwf', null, InputOption::VALUE_REQUIRED, 'Path to kwf directory (only if parsing package)');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $poFilePath = $input->getArgument('path');
         $sourceDir = $input->getArgument('dir');
-        $kwfDir = $input->getArgument('kwf');
+        $poFilePath = $input->getOption('path');
+        $kwfDir = $input->getOption('kwf');
 
         // check requirements for js-parser fulfilled
         $ret = null;
@@ -48,7 +49,7 @@ class ParseCodeCommand extends Command
         // generate po file
         $output->writeln('');
         $output->writeln('Generating po file');
-        $mask = $input->getArgument('mask');
+        $mask = $input->getOption('mask');
         $poFile = new \Sepia\PoParser;
         $errors = array();
         foreach ($trlElements as $trlElement) {
