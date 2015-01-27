@@ -27,15 +27,6 @@ class ParseCodeCommand extends Command
         $poFilePath = $input->getOption('path');
         $kwfDir = $input->getOption('kwf');
 
-        // check requirements for js-parser fulfilled
-        $ret = null;
-        exec('node -v', $cmdOutput, $ret);
-        if ($ret == 1) {
-            $output->writeln('<error>Node needs to be installed</error>');
-            $output->writeln('<error>sudo apt-get install nodejs</error>');
-            exit(1);
-        }
-
         // parse package
         $output->writeln('Parsing source directory...');
         $trlElements = $this->_parseDirectoryForTrl($sourceDir, $output);
