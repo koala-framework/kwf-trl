@@ -8,6 +8,8 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Kwf\Trl\Parse\ParsePhpForTrl;
 use Kwf\Trl\Parse\ParseJsForTrl;
+use Kwf\Trl\Parse\ParseAll;
+use Kwf\Trl\Utils\PoFileGenerator;
 
 class ParseCodeCommand extends Command
 {
@@ -29,80 +31,27 @@ class ParseCodeCommand extends Command
 
         // parse package
         $output->writeln('Parsing source directory...');
-        $trlElements = $this->_parseDirectoryForTrl($sourceDir, $output);
+        $parser = new ParseAll($sourceDir);
+        $trlElements = $parser->parseDirectoryForTrl();
 
         $kwfTrlElements = array();
         if ($kwfDir) {
             $output->writeln('Parsing kwf directory...');
-            $kwfTrlElements = $this->_parseDirectoryForTrl($kwfDir, $output);
+            $kwfParser = new ParseAll($kwfDir);
+            $kwfTrlElements = $kwfParser->parseDirectoryForTrl();
         }
 
         // generate po file
-        $output->writeln('');
-        $output->writeln('Generating po file');
-        $mask = $input->getOption('mask');
-        $poFile = new \Sepia\PoParser;
-        $errors = array();
-        foreach ($trlElements as $trlElement) {
-            // Check if translation is in kwf
-            $trlFoundInKwf = false;
-            foreach ($kwfTrlElements as $kwfTrlElement) {
-                if ($kwfTrlElement['type'] == $trlElement['type']
-                    && $kwfTrlElement['text'] == $trlElement['text']
-                ) {
-                    $trlFoundInKwf = true;
-                    break;
-                }
-            }
-            if ($trlFoundInKwf) continue;
-            if (isset($trlElement['error_short'])) {
-                $errors[] = $trlElement;
-                continue;
-            }
-
-            if ($trlElement['type'] == 'trlcp') {
-                $poFile->updateEntry($trlElement['text'], $trlElement['text'], array(), array(), array(), true);
-                $poFile->updateEntryPlural($trlElement['text'], $trlElement['plural']);
-                $poFile->updateEntryContext($trlElement['text'], $trlElement['context']);
-            } else if ($trlElement['type'] ==  'trlc') {
-                $poFile->updateEntry($trlElement['text'], $trlElement['text'], array(), array(), array(), true);
-                $poFile->updateEntryContext($trlElement['text'], $trlElement['context']);
-            } else if ($trlElement['type'] == 'trlp') {
-                $poFile->updateEntry($trlElement['text'], $trlElement['text'], array(), array(), array(), true);
-                $poFile->updateEntryPlural($trlElement['text'], $trlElement['plural']);
-            } else if ($trlElement['type'] == 'trl') {
-                $poFile->updateEntry($trlElement['text'], $trlElement['text'], array(), array(), array(), true);
-            }
-        }
-        $output->writeln('Write Po File');
+        $output->writeln('Generate Po-File...');
+        $poFileGenerator = new PoFileGenerator($trlElements, $kwfTrlElements);
+        $poFile = $poFileGenerator->generatePoFileObject();
         $poFile->writeFile($poFilePath);
 
-        if (count($errors)) {
+        if (count($parser->getErrors())) {
             $output->writeln('Trl Errors:');
-            foreach ($errors as $error) {
+            foreach ($parser->getErrors() as $error) {
                 var_dump($error);
             }
         }
-    }
-
-    private function _parseDirectoryForTrl($sourceDir, $output)
-    {
-        // call js parser
-        $output->writeln('Parsing files: js');
-        $trlJsParser = new ParseJsForTrl($sourceDir);
-        $jsTrls = $trlJsParser->parse();
-
-        // call php parser
-        $output->writeln('Parsing files: php, tpl');
-        $trlPhpParser = new ParsePhpForTrl;
-        $trlPhpParser->setCodeDirectory($sourceDir);
-        $phpTrls = $trlPhpParser->parseCodeDirectory();
-        $output->writeln('');
-        $output->writeln('File Errors');
-        foreach ($trlPhpParser->getErrors() as $error) {
-            $output->writeln($error['file']);
-            $output->writeln($error['error']->getRawMessage());
-        }
-        return array_merge_recursive($jsTrls, $phpTrls);
     }
 }
