@@ -10,6 +10,7 @@ use Kwf\Trl\Parse\ParsePhpForTrl;
 use Kwf\Trl\Parse\ParseJsForTrl;
 use Kwf\Trl\Parse\ParseAll;
 use Kwf\Trl\Utils\PoFileGenerator;
+use Kwf\Trl\Utils\TrlElementsExtractor;
 
 class ParseCodeCommand extends Command
 {
@@ -20,14 +21,14 @@ class ParseCodeCommand extends Command
             ->addArgument('dir', InputArgument::OPTIONAL, 'Path to source directory', null)
             ->addOption('path', 'p', InputOption::VALUE_REQUIRED, 'Path for po-file', 'trl.po')
             ->addOption('mask', 'm', InputOption::VALUE_REQUIRED, 'Mask to parse for. This can be trl or trlKwf', 'trlKwf')
-            ->addOption('kwf', null, InputOption::VALUE_REQUIRED, 'Path to kwf directory (only if parsing package)');
+            ->addOption('kwfpath', 'k', InputOption::VALUE_REQUIRED, 'Path to kwf po-file (only if parsing package)');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $sourceDir = $input->getArgument('dir');
         $poFilePath = $input->getOption('path');
-        $kwfDir = $input->getOption('kwf');
+        $kwfPoFilePath = $input->getOption('kwfpath');
 
         // parse package
         $output->writeln('Parsing source directory...');
@@ -35,10 +36,12 @@ class ParseCodeCommand extends Command
         $trlElements = $parser->parseDirectoryForTrl();
 
         $kwfTrlElements = array();
-        if ($kwfDir) {
+        if ($kwfPoFilePath) {
             $output->writeln('Parsing kwf directory...');
-            $kwfParser = new ParseAll($kwfDir);
-            $kwfTrlElements = $kwfParser->parseDirectoryForTrl();
+            $kwfPoFile = new \Sepia\PoParser;
+            $kwfPoFile->parseFile($kwfPoFilePath);
+            $trlElementsExtractor = new TrlElementsExtractor($kwfPoFile);
+            $kwfTrlElements = $trlElementsExtractor->extractTrlElements();
         }
 
         // generate po file
