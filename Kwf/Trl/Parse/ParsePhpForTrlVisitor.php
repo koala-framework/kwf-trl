@@ -22,7 +22,6 @@ class ParsePhpForTrlVisitor extends \PhpParser\NodeVisitorAbstract
                     || $node->args[1]->value->getType() != 'Scalar_String'
                     || $node->args[2]->value->getType() != 'Scalar_String'
                 ) {
-                    //TODO check ob wirklich scalar_integer
                     $trlElement['error_short'] = ParsePhpForTrl::ERROR_WRONG_ARGUMENT_TYPE;
                 } else {
                     $trlElement['text'] = $node->args[1]->value->value;
