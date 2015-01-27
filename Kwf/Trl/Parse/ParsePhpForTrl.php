@@ -1,13 +1,12 @@
 <?php
 namespace Kwf\Trl\Parse;
 
-use Kwf\Trl\Utils\SourceFileFinder;
+use Symfony\Component\Finder\Finder;
 
 class ParsePhpForTrl {
     protected $_parser;
     protected $_codeContent;
-    protected $_sourceFileFinder;
-    protected $_directory;
+    protected $_fileFinder;
     protected $_errors;
 
     const ERROR_INVALID_STRING = 'invalidString';
@@ -23,15 +22,18 @@ class ParsePhpForTrl {
     public function __construct($parser=null)
     {
         $this->_parser = $parser ? $parser : new \PhpParser\Parser(new \PhpParser\Lexer);
-        $this->_sourceFileFinder = new SourceFileFinder;
-        $this->_sourceFileFinder->setFileTypes(array('php', 'tpl'));
-        $this->_sourceFileFinder->setIgnoreDirectories(array('git', 'vendor'));
+        $this->_fileFinder = new Finder();
+        $excludeFolders = array('vendor', 'tests', 'cache', 'node_modules');
+        foreach ($excludeFolders as $excludeFolder) {
+            $this->_fileFinder->exclude($excludeFolder);
+        }
+        $this->_fileFinder->name('/\.*\.(php|tpl)$/');
+        $this->_fileFinder->files();
     }
 
     public function setCodeDirectory($dir)
     {
-        $this->_directory = $dir;
-        $this->_sourceFileFinder->setDirectory($dir);
+        $this->_fileFinder->in($dir);
     }
 
     public function setCodeContent($content)
@@ -43,10 +45,8 @@ class ParsePhpForTrl {
     {
         $this->_errors = array();
         $trlElements = array();
-        $initCwd = getcwd();
-        chdir($this->_directory);
-        foreach ($this->_sourceFileFinder->getFiles() as $file) {
-            $this->_codeContent = file_get_contents($file);
+        foreach ($this->_fileFinder as $file) {
+            $this->_codeContent = $file->getContents();
             try {
                 foreach ($this->parseContent() as $trlElementOfFile) {
                     $trlElementOfFile['file'] = $file;
@@ -55,11 +55,10 @@ class ParsePhpForTrl {
             } catch(\PhpParser\Error $e) {
                 $this->_errors[] = array(
                     'error' => $e,
-                    'file' => $this->_directory.'/'.$file
+                    'file' => $file->getRealPath()
                 );
             }
         }
-        chdir($initCwd);
         return $trlElements;
     }
 

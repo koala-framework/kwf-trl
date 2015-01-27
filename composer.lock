@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "6e4230b0283d593e54447b604215300d",
+    "hash": "3c98ad4bdbbf38a81a0535f7dd8b94a7",
     "packages": [
         {
             "name": "koala-framework/composer-extra-assets",
@@ -72,12 +72,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Ben-Ho/koala-framework.git",
-                "reference": "9a67ce7d0ef4969dc4b338c4e9779a799e4fad0d"
+                "reference": "cef12670715787577a11c73f30ec1f2258ee2316"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Ben-Ho/koala-framework/zipball/9a67ce7d0ef4969dc4b338c4e9779a799e4fad0d",
-                "reference": "9a67ce7d0ef4969dc4b338c4e9779a799e4fad0d",
+                "url": "https://api.github.com/repos/Ben-Ho/koala-framework/zipball/cef12670715787577a11c73f30ec1f2258ee2316",
+                "reference": "cef12670715787577a11c73f30ec1f2258ee2316",
                 "shasum": ""
             },
             "require": {
@@ -146,7 +146,7 @@
             "support": {
                 "source": "https://github.com/Ben-Ho/koala-framework/tree/master-trl"
             },
-            "time": "2015-01-26 08:59:51"
+            "time": "2015-01-26 15:11:20"
         },
         {
             "name": "koala-framework/kwf-modernizr",
@@ -322,12 +322,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/koala-framework/sourcemaps.git",
-                "reference": "d9862cd498b199d92531ec25506f37fbe9b97dc5"
+                "reference": "e31b2ea76d5c2dd5f4b77ccc2df6f1b05bcb6bea"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/koala-framework/sourcemaps/zipball/d9862cd498b199d92531ec25506f37fbe9b97dc5",
-                "reference": "d9862cd498b199d92531ec25506f37fbe9b97dc5",
+                "url": "https://api.github.com/repos/koala-framework/sourcemaps/zipball/e31b2ea76d5c2dd5f4b77ccc2df6f1b05bcb6bea",
+                "reference": "e31b2ea76d5c2dd5f4b77ccc2df6f1b05bcb6bea",
                 "shasum": ""
             },
             "require-dev": {
@@ -350,7 +350,7 @@
             ],
             "description": "Sourcemaps Utities",
             "homepage": "http://www.koala-framework.org/",
-            "time": "2014-11-25 16:06:57"
+            "time": "2015-01-26 14:57:51"
         },
         {
             "name": "koala-framework/zendframework1",
@@ -490,17 +490,17 @@
         },
         {
             "name": "symfony/console",
-            "version": "v2.5.6",
+            "version": "v2.6.3",
             "target-dir": "Symfony/Component/Console",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/Console.git",
-                "reference": "6f177fca24200a5b97aef5ce7a5c98124a0f0db0"
+                "reference": "6ac6491ff60c0e5a941db3ccdc75a07adbb61476"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/Console/zipball/6f177fca24200a5b97aef5ce7a5c98124a0f0db0",
-                "reference": "6f177fca24200a5b97aef5ce7a5c98124a0f0db0",
+                "url": "https://api.github.com/repos/symfony/Console/zipball/6ac6491ff60c0e5a941db3ccdc75a07adbb61476",
+                "reference": "6ac6491ff60c0e5a941db3ccdc75a07adbb61476",
                 "shasum": ""
             },
             "require": {
@@ -508,16 +508,18 @@
             },
             "require-dev": {
                 "psr/log": "~1.0",
-                "symfony/event-dispatcher": "~2.1"
+                "symfony/event-dispatcher": "~2.1",
+                "symfony/process": "~2.1"
             },
             "suggest": {
                 "psr/log": "For using the console logger",
-                "symfony/event-dispatcher": ""
+                "symfony/event-dispatcher": "",
+                "symfony/process": ""
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.5-dev"
+                    "dev-master": "2.6-dev"
                 }
             },
             "autoload": {
@@ -541,7 +543,54 @@
             ],
             "description": "Symfony Console Component",
             "homepage": "http://symfony.com",
-            "time": "2014-10-05 13:57:04"
+            "time": "2015-01-06 17:50:02"
+        },
+        {
+            "name": "symfony/finder",
+            "version": "v2.6.3",
+            "target-dir": "Symfony/Component/Finder",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/Finder.git",
+                "reference": "16513333bca64186c01609961a2bb1b95b5e1355"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/Finder/zipball/16513333bca64186c01609961a2bb1b95b5e1355",
+                "reference": "16513333bca64186c01609961a2bb1b95b5e1355",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.3"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.6-dev"
+                }
+            },
+            "autoload": {
+                "psr-0": {
+                    "Symfony\\Component\\Finder\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Symfony Community",
+                    "homepage": "http://symfony.com/contributors"
+                },
+                {
+                    "name": "Fabien Potencier",
+                    "email": "fabien@symfony.com"
+                }
+            ],
+            "description": "Symfony Finder Component",
+            "homepage": "http://symfony.com",
+            "time": "2015-01-03 08:01:59"
         },
         {
             "name": "symfony/process",
@@ -1069,6 +1118,7 @@
         "koala-framework/koala-framework": 20
     },
     "prefer-stable": true,
+    "prefer-lowest": false,
     "platform": [],
     "platform-dev": []
 }

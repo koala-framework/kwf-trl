@@ -1,27 +1,27 @@
 <?php
 namespace Kwf\Trl\Parse;
+use Symfony\Component\Finder\Finder;
 
 class ParseJsForTrl {
     protected $_fileFinder;
-    protected $_directory;
     public function __construct($directory)
     {
-        $this->_directory = $directory;
-        $this->_fileFinder = new \Kwf\Trl\Utils\SourceFileFinder;
-        $this->_fileFinder->setDirectory($directory);
-        $this->_fileFinder->setFileTypes(array('js'));
-        $this->_fileFinder->setIgnoreDirectories(array('.git', 'vendor', 'node_modules'));
+        $this->_fileFinder = new Finder();
+        $this->_fileFinder->files();
+        $this->_fileFinder->in($directory);
+        $excludeFolders = array('vendor', 'tests', 'cache', 'node_modules');
+        foreach ($excludeFolders as $excludeFolder) {
+            $this->_fileFinder->exclude($excludeFolder);
+        }
+        $this->_fileFinder->name('*.js');
     }
 
     public function parse()
     {
-        $initCwd = getcwd();
-        chdir($this->_directory);
         $trlElements = array();
-        foreach ($this->_fileFinder->getFiles() as $file) {
-            $trlElements = array_merge($trlElements, \Kwf_Trl_Parser_JsParser::parseContent(file_get_contents($file)));
+        foreach ($this->_fileFinder as $file) {
+            $trlElements = array_merge($trlElements, \Kwf_Trl_Parser_JsParser::parseContent($file->getContents()));
         }
-        chdir($initCwd);
         return $trlElements;
     }
 }

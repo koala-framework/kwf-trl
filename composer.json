@@ -7,7 +7,8 @@
     }],
     "require": {
         "koala-framework/koala-framework": "dev-master-trl",
-        "symfony/console": "2.5.6",
+        "symfony/console": "2.6.*",
+        "symfony/finder": "2.6.*",
         "sepia/po-parser": "4.2.*",
         "nikic/php-parser": "1.0.2"
     },
