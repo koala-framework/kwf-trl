@@ -12,7 +12,9 @@ class ParsePhpForTrlVisitor extends \PhpParser\NodeVisitorAbstract
 
             $functionName = (string)$node->name;
             $trlElement = null;
-            if (strpos($functionName, 'trlcp') === 0) {
+            if ($functionName == 'trlcp' || $functionName == 'trlcpStatic'
+                || $functionName == 'trlcpKwf' || $functionName == 'trlcpKwfStatic'
+            ) {
                 $trlElement = array('type' => 'trlcp');
                 if (count($node->args) != 3 && count($node->args) != 4) {
                     $trlElement['error_short'] = ParsePhpForTrl::ERROR_WRONG_NR_OF_ARGUMENTS;
@@ -32,7 +34,9 @@ class ParsePhpForTrlVisitor extends \PhpParser\NodeVisitorAbstract
                                                  .$node->args[3]->value->value
                                                  .')';
                 }
-            } else if (strpos($functionName, 'trlc') === 0) {
+            } else if ($functionName == 'trlc' || $functionName == 'trlcStatic'
+                || $functionName == 'trlcKwf' || $functionName == 'trlcKwfStatic'
+            ) {
                 $trlElement = array('type' => 'trlc');
                 if (count($node->args) != 2 && count($node->args) != 3) {
                     $trlElement['error_short'] = ParsePhpForTrl::ERROR_WRONG_NR_OF_ARGUMENTS;
@@ -47,7 +51,9 @@ class ParsePhpForTrlVisitor extends \PhpParser\NodeVisitorAbstract
                                                  .'\''.$node->args[1]->value->value.'\''
                                                  .')';
                 }
-            } else if (strpos($functionName, 'trlp') === 0) {
+            } else if ($functionName == 'trlp' || $functionName == 'trlpStatic'
+                || $functionName == 'trlpKwf' || $functionName == 'trlpKwfStatic'
+            ) {
                 $trlElement = array('type' => 'trlp');
                 if (count($node->args) != 3) {
                     $trlElement['error_short'] = ParsePhpForTrl::ERROR_WRONG_NR_OF_ARGUMENTS;
@@ -63,7 +69,9 @@ class ParsePhpForTrlVisitor extends \PhpParser\NodeVisitorAbstract
                                                  .$node->args[2]->value->value
                                                  .')';
                 }
-            } else if (strpos($functionName, 'trl') === 0) {
+            } else if ($functionName == 'trl' || $functionName == 'trlStatic'
+                || $functionName == 'trlKwf' || $functionName == 'trlKwfStatic'
+            ) {
                 $trlElement = array('type' => 'trl');
                 if (count($node->args) != 1 && count($node->args) != 2) {
                     $trlElement['error_short'] = ParsePhpForTrl::ERROR_WRONG_NR_OF_ARGUMENTS;
