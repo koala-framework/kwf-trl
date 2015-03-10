@@ -57,9 +57,10 @@ class ParseCodeCommand extends Command
         foreach ($git->getBranches('-r') as $branch) {
             if (strpos($branch, 'origin/') === false) continue;
             $splited = explode('/', $branch);
-            // Only version 3.0 and up
-            if (!preg_match('/^[3-9]+.[0-9]+$/i', $splited[1])) continue;
-            if (version_compare($splited[1], '3.9', '<')) continue;
+            $isVersionNumber = preg_match('/^[0-9]+.[0-9]+$/i', $splited[1]);
+            if (!$isVersionNumber && $splited[1] != 'master') continue;
+
+            if ($isVersionNumber && version_compare($splited[1], '3.9', '<')) continue;
 
             $output->writeln("<info>Checking out branch: $branch</info>");
             $git->checkout($branch);
