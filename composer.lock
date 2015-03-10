@@ -8,16 +8,16 @@
     "packages": [
         {
             "name": "koala-framework/composer-extra-assets",
-            "version": "dev-master",
+            "version": "v1.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/koala-framework/composer-extra-assets.git",
-                "reference": "928695baebee8b0a2cc5ad233f4824a1155365fe"
+                "reference": "507245cd5a1f4eaa647c8b7dba5cec4d3e596b08"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/koala-framework/composer-extra-assets/zipball/928695baebee8b0a2cc5ad233f4824a1155365fe",
-                "reference": "928695baebee8b0a2cc5ad233f4824a1155365fe",
+                "url": "https://api.github.com/repos/koala-framework/composer-extra-assets/zipball/507245cd5a1f4eaa647c8b7dba5cec4d3e596b08",
+                "reference": "507245cd5a1f4eaa647c8b7dba5cec4d3e596b08",
                 "shasum": ""
             },
             "require": {
@@ -41,20 +41,20 @@
             ],
             "description": "Composer Plugin for installing Assets using native npm/bower",
             "homepage": "https://github.com/koala-framework/composer-extra-assets",
-            "time": "2014-12-22 19:30:09"
+            "time": "2015-02-23 16:51:57"
         },
         {
             "name": "koala-framework/extjs2",
-            "version": "v2.3.0-p4",
+            "version": "v2.3.0-p5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/koala-framework/extjs2.git",
-                "reference": "d0f1352c13cdc09f70b00d63faebc0bf5cd9ca21"
+                "reference": "b91b8006199c28dccb2f67e6e01dc7714366e96c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/koala-framework/extjs2/zipball/d0f1352c13cdc09f70b00d63faebc0bf5cd9ca21",
-                "reference": "d0f1352c13cdc09f70b00d63faebc0bf5cd9ca21",
+                "url": "https://api.github.com/repos/koala-framework/extjs2/zipball/b91b8006199c28dccb2f67e6e01dc7714366e96c",
+                "reference": "b91b8006199c28dccb2f67e6e01dc7714366e96c",
                 "shasum": ""
             },
             "type": "library",
@@ -64,7 +64,7 @@
             ],
             "description": "ExtJS JavaScript Library",
             "homepage": "http://www.sencha.com/products/extjs/",
-            "time": "2014-12-06 10:02:52"
+            "time": "2015-02-06 07:43:17"
         },
         {
             "name": "koala-framework/koala-framework",
@@ -72,23 +72,23 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Ben-Ho/koala-framework.git",
-                "reference": "cef12670715787577a11c73f30ec1f2258ee2316"
+                "reference": "dea1ad1222d0c4c7e2911cd9576bcb16698c6083"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Ben-Ho/koala-framework/zipball/cef12670715787577a11c73f30ec1f2258ee2316",
-                "reference": "cef12670715787577a11c73f30ec1f2258ee2316",
+                "url": "https://api.github.com/repos/Ben-Ho/koala-framework/zipball/dea1ad1222d0c4c7e2911cd9576bcb16698c6083",
+                "reference": "dea1ad1222d0c4c7e2911cd9576bcb16698c6083",
                 "shasum": ""
             },
             "require": {
-                "koala-framework/composer-extra-assets": "1.0.x-dev",
+                "koala-framework/composer-extra-assets": "1.0.1",
                 "koala-framework/extjs2": "2.3.0.*",
                 "koala-framework/kwf-modernizr": "3.8.x-dev",
                 "koala-framework/library-css3pie": "1.0.0",
                 "koala-framework/library-htmlawed": "1.1.14",
                 "koala-framework/library-silkicons": "1.3",
                 "koala-framework/library-swfupload": "2.2.0.1",
-                "koala-framework/sourcemaps": "0.1.x-dev",
+                "koala-framework/sourcemaps": "0.2.0",
                 "koala-framework/zendframework1": "1.12.6.*",
                 "sepia/po-parser": "4.2.0",
                 "symfony/process": "2.7.*",
@@ -118,7 +118,7 @@
                 },
                 "require-npm": {
                     "uglify-js": "2.4.13",
-                    "node-sass": "1.2.3",
+                    "node-sass": "2.0.1",
                     "esprima": "1.2.2"
                 },
                 "require-dev-bower": {
@@ -146,7 +146,7 @@
             "support": {
                 "source": "https://github.com/Ben-Ho/koala-framework/tree/master-trl"
             },
-            "time": "2015-01-26 15:11:20"
+            "time": "2015-03-10 14:21:53"
         },
         {
             "name": "koala-framework/kwf-modernizr",
@@ -318,16 +318,16 @@
         },
         {
             "name": "koala-framework/sourcemaps",
-            "version": "dev-master",
+            "version": "v0.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/koala-framework/sourcemaps.git",
-                "reference": "e31b2ea76d5c2dd5f4b77ccc2df6f1b05bcb6bea"
+                "reference": "4fed293372f516b5cc86ca090f7930e1ea113a7b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/koala-framework/sourcemaps/zipball/e31b2ea76d5c2dd5f4b77ccc2df6f1b05bcb6bea",
-                "reference": "e31b2ea76d5c2dd5f4b77ccc2df6f1b05bcb6bea",
+                "url": "https://api.github.com/repos/koala-framework/sourcemaps/zipball/4fed293372f516b5cc86ca090f7930e1ea113a7b",
+                "reference": "4fed293372f516b5cc86ca090f7930e1ea113a7b",
                 "shasum": ""
             },
             "require-dev": {
@@ -350,20 +350,20 @@
             ],
             "description": "Sourcemaps Utities",
             "homepage": "http://www.koala-framework.org/",
-            "time": "2015-01-26 14:57:51"
+            "time": "2015-02-23 16:45:16"
         },
         {
             "name": "koala-framework/zendframework1",
-            "version": "v1.12.6-p1",
+            "version": "v1.12.6-p2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/koala-framework/zendframework1.git",
-                "reference": "b22070a830708b476173f45a2b8b708098343f16"
+                "reference": "b3cfdccbb6ebcf962ee132050fab0038d143c556"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/koala-framework/zendframework1/zipball/b22070a830708b476173f45a2b8b708098343f16",
-                "reference": "b22070a830708b476173f45a2b8b708098343f16",
+                "url": "https://api.github.com/repos/koala-framework/zendframework1/zipball/b3cfdccbb6ebcf962ee132050fab0038d143c556",
+                "reference": "b3cfdccbb6ebcf962ee132050fab0038d143c556",
                 "shasum": ""
             },
             "require": {
@@ -393,7 +393,7 @@
                 "ZF1",
                 "framework"
             ],
-            "time": "2014-12-15 13:49:08"
+            "time": "2015-03-04 15:09:37"
         },
         {
             "name": "nikic/php-parser",
@@ -490,17 +490,17 @@
         },
         {
             "name": "symfony/console",
-            "version": "v2.6.3",
+            "version": "v2.6.4",
             "target-dir": "Symfony/Component/Console",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/Console.git",
-                "reference": "6ac6491ff60c0e5a941db3ccdc75a07adbb61476"
+                "reference": "e44154bfe3e41e8267d7a3794cd9da9a51cfac34"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/Console/zipball/6ac6491ff60c0e5a941db3ccdc75a07adbb61476",
-                "reference": "6ac6491ff60c0e5a941db3ccdc75a07adbb61476",
+                "url": "https://api.github.com/repos/symfony/Console/zipball/e44154bfe3e41e8267d7a3794cd9da9a51cfac34",
+                "reference": "e44154bfe3e41e8267d7a3794cd9da9a51cfac34",
                 "shasum": ""
             },
             "require": {
@@ -543,11 +543,11 @@
             ],
             "description": "Symfony Console Component",
             "homepage": "http://symfony.com",
-            "time": "2015-01-06 17:50:02"
+            "time": "2015-01-25 04:39:26"
         },
         {
             "name": "symfony/finder",
-            "version": "v2.6.3",
+            "version": "v2.6.4",
             "target-dir": "Symfony/Component/Finder",
             "source": {
                 "type": "git",
@@ -599,16 +599,19 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/Process.git",
-                "reference": "f3ab493718070b936e21b202422466db35c1c298"
+                "reference": "068af938416f94e638e5d86f420e9be62c64ecdf"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/Process/zipball/f3ab493718070b936e21b202422466db35c1c298",
-                "reference": "f3ab493718070b936e21b202422466db35c1c298",
+                "url": "https://api.github.com/repos/symfony/Process/zipball/068af938416f94e638e5d86f420e9be62c64ecdf",
+                "reference": "068af938416f94e638e5d86f420e9be62c64ecdf",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.3.9"
+            },
+            "require-dev": {
+                "symfony/phpunit-bridge": "~2.7|~3.0.0"
             },
             "type": "library",
             "extra": {
@@ -637,7 +640,7 @@
             ],
             "description": "Symfony Process Component",
             "homepage": "http://symfony.com",
-            "time": "2015-01-25 04:39:35"
+            "time": "2015-02-24 12:09:34"
         },
         {
             "name": "twig/twig",
@@ -1066,17 +1069,17 @@
         },
         {
             "name": "symfony/yaml",
-            "version": "v2.6.3",
+            "version": "v2.6.4",
             "target-dir": "Symfony/Component/Yaml",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/Yaml.git",
-                "reference": "82462a90848a52c2533aa6b598b107d68076b018"
+                "reference": "60ed7751671113cf1ee7d7778e691642c2e9acd8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/Yaml/zipball/82462a90848a52c2533aa6b598b107d68076b018",
-                "reference": "82462a90848a52c2533aa6b598b107d68076b018",
+                "url": "https://api.github.com/repos/symfony/Yaml/zipball/60ed7751671113cf1ee7d7778e691642c2e9acd8",
+                "reference": "60ed7751671113cf1ee7d7778e691642c2e9acd8",
                 "shasum": ""
             },
             "require": {
@@ -1109,7 +1112,7 @@
             ],
             "description": "Symfony Yaml Component",
             "homepage": "http://symfony.com",
-            "time": "2015-01-03 15:33:07"
+            "time": "2015-01-25 04:39:26"
         }
     ],
     "aliases": [],
