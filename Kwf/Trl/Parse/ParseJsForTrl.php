@@ -1,6 +1,7 @@
 <?php
 namespace Kwf\Trl\Parse;
 use Symfony\Component\Finder\Finder;
+use Symfony\Component\Console\Helper\ProgressBar;
 
 class ParseJsForTrl {
     protected $_fileFinder;
@@ -16,12 +17,18 @@ class ParseJsForTrl {
         $this->_fileFinder->name('*.js');
     }
 
-    public function parse()
+    public function parse($output)
     {
         $trlElements = array();
+        $fileCount = iterator_count($this->_fileFinder);
+        echo "JS-Files:\n";
+        $progress = new ProgressBar($output, $fileCount);
         foreach ($this->_fileFinder as $file) {
+            $progress->advance();
             $trlElements = array_merge($trlElements, \Kwf_Trl_Parser_JsParser::parseContent($file->getContents()));
         }
+        $progress->finish();
+        echo "\n";
         return $trlElements;
     }
 }

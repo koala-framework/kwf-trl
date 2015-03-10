@@ -2,6 +2,7 @@
 namespace Kwf\Trl\Parse;
 
 use Symfony\Component\Finder\Finder;
+use Symfony\Component\Console\Helper\ProgressBar;
 
 class ParsePhpForTrl {
     protected $_parser;
@@ -41,11 +42,15 @@ class ParsePhpForTrl {
         $this->_codeContent = $content;
     }
 
-    public function parseCodeDirectory()
+    public function parseCodeDirectory($output)
     {
         $this->_errors = array();
         $trlElements = array();
+        $fileCount = iterator_count($this->_fileFinder);
+        echo "PHP-Files:\n";
+        $progress = new ProgressBar($output, $fileCount);
         foreach ($this->_fileFinder as $file) {
+            $progress->advance();
             $this->_codeContent = $file->getContents();
             try {
                 foreach ($this->parseContent() as $trlElementOfFile) {
@@ -59,6 +64,8 @@ class ParsePhpForTrl {
                 );
             }
         }
+        $progress->finish();
+        echo "\n";
         return $trlElements;
     }
 

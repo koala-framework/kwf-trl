@@ -65,7 +65,7 @@ class ParseCodeCommand extends Command
             $git->checkout($branch);
             // parse package
             $output->writeln('Parsing source directory...');
-            $parser = new ParseAll($directory);
+            $parser = new ParseAll($directory, $output);
             $trlElements = array_merge($parser->parseDirectoryForTrl(), $trlElements);
             $errors = array_merge($parser->getErrors(), $errors);
         }
