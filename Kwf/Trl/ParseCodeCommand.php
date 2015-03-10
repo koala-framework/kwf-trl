@@ -77,8 +77,15 @@ class ParseCodeCommand extends Command
         $poFile = $poFileGenerator->generatePoFileObject();
         $poFile->writeFile($input->getOption('poFile'));
 
+        $output->writeln('Trl Errors:');
+        foreach ($trlElements as $trlElement) {
+            if (isset($trlElement['error_short']) && $trlElement['error_short']) {
+                var_dump($trlElement);
+            }
+        }
+
         if (count($errors)) {
-            $output->writeln('Trl Errors:');
+            $output->writeln('Php Parse-Errors:');
             foreach ($errors as $error) {
                 var_dump($error);
             }
