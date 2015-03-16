@@ -30,7 +30,7 @@ class TrlXmlToPoConverter
         $this->_xmlDocument = simplexml_load_string($content);
     }
 
-    public function convertToPo()
+    public function convertToPo($output)
     {
         $this->_poContent = array();
         foreach ($this->_xmlDocument->text as $trl) {
@@ -40,7 +40,7 @@ class TrlXmlToPoConverter
             if ($trl->{$this->_baseLanguage}) {
                 $this->_poContent[] = 'msgid "'.$this->_escapeString($trl->{$this->_baseLanguage}).'"';
             } else {
-                echo "No value for baseLanguage. Maybe this string does not exist in web or it's the wrong baseLanguage.\n";
+                $output->writeln('No value for baseLanguage. Maybe this string does not exist in web or it\'s the wrong baseLanguage.');
             }
             if ($trl->{$this->_baseLanguage.'_plural'}) {
                 $this->_poContent[] = 'msgid_plural "'.$this->_escapeString($trl->{$this->_baseLanguage.'_plural'}).'"';

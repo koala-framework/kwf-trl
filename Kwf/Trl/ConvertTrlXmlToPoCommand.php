@@ -31,7 +31,7 @@ class ConvertTrlXmlToPoCommand extends Command
         $trlXmlToPoConverter->setXmlPath($xmlPath);
         $trlXmlToPoConverter->setBaseLanguage($baseLanguage);
         if ($targetLanguage) $trlXmlToPoConverter->setTargetLanguage($targetLanguage);
-        $trlXmlToPoConverter->convertToPo();
+        $trlXmlToPoConverter->convertToPo($output);
 
         $trlXmlToPoConverter->writePoContent($poPath);
     }
