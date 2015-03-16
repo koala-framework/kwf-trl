@@ -3,16 +3,16 @@ namespace Kwf\Trl\Utils;
 
 class TrlElementsExtractor
 {
-    protected $_poFileObject;
-    public function __construct($poFileObject)
+    protected $_poFile;
+    public function __construct(\Sepia\PoParser $poFile)
     {
-        $this->_poFileObject = $poFileObject;
+        $this->_poFile = $poFile;
     }
 
     public function extractTrlElements()
     {
         $trlElements = array();
-        foreach ($this->_poFileObject->entries() as $entry) {
+        foreach ($this->_poFile->entries() as $entry) {
             $trlElement = array(
                 'text' => $entry['msgid'][0]
             );
