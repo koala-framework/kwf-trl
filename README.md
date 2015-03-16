@@ -7,7 +7,7 @@ If used for package or web define kwf-path to exclude trls covered by kwf
 
 
 ### Usage: ###
-`php bin/trl parseCode [-p|--path="..."] [-m|--mask="..."] [-k|--kwfpath="..."] [dir]`
+`php bin/trl parseCode [-p|--poFile="..."] [-m|--mask="..."] [-k|--kwfpath="..."] [dir]`
 
 
 ## Convert: ##
