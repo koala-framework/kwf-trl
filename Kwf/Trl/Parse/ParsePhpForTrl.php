@@ -47,7 +47,7 @@ class ParsePhpForTrl {
         $this->_errors = array();
         $trlElements = array();
         $fileCount = iterator_count($this->_fileFinder);
-        echo "PHP-Files:\n";
+        $output->writeln('PHP-Files:');
         $progress = new ProgressBar($output, $fileCount);
         foreach ($this->_fileFinder as $file) {
             $progress->advance();
@@ -65,7 +65,7 @@ class ParsePhpForTrl {
             }
         }
         $progress->finish();
-        echo "\n";
+        $output->writeln('');
         return $trlElements;
     }
 
