@@ -58,7 +58,7 @@ class ParseCodeCommand extends Command
             if (strpos($branch, 'origin/') === false) continue;
             $splited = explode('/', $branch);
             $isVersionNumber = preg_match('/^[0-9]+.[0-9]+$/i', $splited[1]);
-            if (!$isVersionNumber && $splited[1] != 'master') continue;
+            if (!$isVersionNumber && $splited[1] != 'master' && $splited[1] != 'production') continue;
 
             if ($isVersionNumber && version_compare($splited[1], '3.9', '<')) continue;
 
