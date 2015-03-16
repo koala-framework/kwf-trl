@@ -16,7 +16,7 @@ class ParsePhpForTrlVisitor extends \PhpParser\NodeVisitorAbstract
                 || $functionName == 'trlcpKwf' || $functionName == 'trlcpKwfStatic'
             ) {
                 $trlElement = array('type' => 'trlcp');
-                if (count($node->args) != 3 && count($node->args) != 4) {
+                if (count($node->args) != 4) { // context, singular, plural, variables
                     $trlElement['error_short'] = ParsePhpForTrl::ERROR_WRONG_NR_OF_ARGUMENTS;
                 } else if ($node->args[0]->value->getType() != 'Scalar_String'
                     || $node->args[1]->value->getType() != 'Scalar_String'
@@ -32,7 +32,7 @@ class ParsePhpForTrlVisitor extends \PhpParser\NodeVisitorAbstract
                 || $functionName == 'trlcKwf' || $functionName == 'trlcKwfStatic'
             ) {
                 $trlElement = array('type' => 'trlc');
-                if (count($node->args) != 2 && count($node->args) != 3) {
+                if (count($node->args) != 2 && count($node->args) != 3) { // context, singular[, variables]
                     $trlElement['error_short'] = ParsePhpForTrl::ERROR_WRONG_NR_OF_ARGUMENTS;
                 } else if ($node->args[0]->value->getType() != 'Scalar_String'
                     || $node->args[1]->value->getType() != 'Scalar_String'
@@ -46,7 +46,7 @@ class ParsePhpForTrlVisitor extends \PhpParser\NodeVisitorAbstract
                 || $functionName == 'trlpKwf' || $functionName == 'trlpKwfStatic'
             ) {
                 $trlElement = array('type' => 'trlp');
-                if (count($node->args) != 3) {
+                if (count($node->args) != 3) { // singular, plural, variables
                     $trlElement['error_short'] = ParsePhpForTrl::ERROR_WRONG_NR_OF_ARGUMENTS;
                 } else if($node->args[0]->value->getType() != 'Scalar_String'
                     || $node->args[1]->value->getType() != 'Scalar_String'
@@ -60,7 +60,7 @@ class ParsePhpForTrlVisitor extends \PhpParser\NodeVisitorAbstract
                 || $functionName == 'trlKwf' || $functionName == 'trlKwfStatic'
             ) {
                 $trlElement = array('type' => 'trl');
-                if (count($node->args) != 1 && count($node->args) != 2) {
+                if (count($node->args) != 1 && count($node->args) != 2) { // singular[, variables]
                     $trlElement['error_short'] = ParsePhpForTrl::ERROR_WRONG_NR_OF_ARGUMENTS;
                 } else if($node->args[0]->value->getType() != 'Scalar_String') {
                     $trlElement['error_short'] = ParsePhpForTrl::ERROR_WRONG_ARGUMENT_TYPE;
