@@ -64,7 +64,9 @@ class TrlXmlToPoConverter
 
     private function _escapeString($string)
     {
-        return str_replace("\'", "'", str_replace('"', '\"', $string));
+        $ret = str_replace("\'", "'", str_replace('"', '\"', $string));
+        $ret = str_replace("\n", "\\n\"\n\"", $ret);
+        return $ret;
     }
 
     public function getPoContent() // needed for testing
