@@ -1,1 +1,6 @@
 /vendor
+/node_modules
+/.kdev4
+*.po
+bower.json
+.bowerrc
