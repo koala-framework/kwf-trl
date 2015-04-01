@@ -36,7 +36,6 @@ class ParsePhpForTrlTest extends PHPUnit_Framework_TestCase
         $this->assertEquals('testWords', $values[0]['plural']);
         $this->assertEquals('testContext', $values[0]['context']);
         $this->assertEquals('trlcp', $values[0]['type']);
-        $this->assertEquals("trlcpStatic('testContext', 'testWord', 'testWords', 3)", $values[0]['before']);
 
         $this->_parserObject->setCodeContent("<?php trlKwfStatic('testWord');");
         $values = $this->_parserObject->parseContent();
@@ -62,7 +61,6 @@ class ParsePhpForTrlTest extends PHPUnit_Framework_TestCase
         $this->assertEquals('testWords', $values[0]['plural']);
         $this->assertEquals('testContext', $values[0]['context']);
         $this->assertEquals('trlcp', $values[0]['type']);
-        $this->assertEquals("trlcpKwfStatic('testContext', 'testWord', 'testWords', 3)", $values[0]['before']);
     }
 
     public function testTrlParsePhp2()
@@ -184,7 +182,6 @@ class ParsePhpForTrlTest extends PHPUnit_Framework_TestCase
         $this->assertEquals('testWords', $values[0]['plural']);
         $this->assertEquals('testContext', $values[0]['context']);
         $this->assertEquals('trlcp', $values[0]['type']);
-        $this->assertEquals("trlcpKwf('testContext', 'testWord', 'testWords', 3)", $values[0]['before']);
 
         //more complicated tests
         $this->_parserObject->setCodeContent("<?php trl('testWord {0} and {1}', array('word1' and 'word2'));");
@@ -219,91 +216,5 @@ class ParsePhpForTrlTest extends PHPUnit_Framework_TestCase
         $this->_parserObject->setCodeContent('<?php trlc("context", "text"); trl("text2");');
         $values = $this->_parserObject->parseContent();
         $this->assertEquals("context", $values[0]['context']);
-    }
-
-    public function testTrlTranslation ()
-    {
-        $this->markTestIncomplete();
-        $modelKwf = new Kwf_Model_FnF(array(
-            'columns' => array(),
-            'data' => array(
-                array('id' => 1, 'en' => 'foo', 'de' => 'dings'),
-                array('id' => 2, 'en' => 'foobar', 'de' => 'dingsbums'),
-                array('id' => 3, 'en' => 'foobar', 'en_plural' => 'foobars', 'de' => 'dingsbums', 'de_plural' => 'dingsbumse'),
-                array('id' => 4, 'context' => 'special', 'en' => 'special foobar', 'en_plural' => 'special foobars', 'de' => 'spezial dingsbums', 'de_plural' => 'spezial dingsbumse'),
-                array('id' => 5, 'context' => 'special', 'en' => 'special foobar', 'de' => 'spezial dingsbums'),
-                array('id' => 6, 'en' => '{0} foo', 'de' => '{0} dings')
-            )
-        ));
-        $modelWeb = new Kwf_Model_FnF(array(
-            'data' => array(
-            )
-        ));
-        $config['modelKwf'] = $modelKwf;
-        $config['modelWeb'] = $modelWeb;
-        $this->_trlObject = new Kwf_Trl($config);
-        $this->_trlObject->setLanguages(array('de', 'en'));
-        $this->_trlObject->setModel($modelKwf, 'kwf');
-        $this->assertEquals('dingsbums', $this->_trlObject->trlKwf('foobar', array(), 'de'));
-        $this->assertEquals('dingsbumse', $this->_trlObject->trlpKwf('foobar', 'foobars', array(2), 'de'));
-        $this->assertEquals('spezial dingsbums', $this->_trlObject->trlcpKwf('special', 'special foobar', 'special foobars', array(1), 'de'));
-        $this->assertEquals('spezial dingsbums', $this->_trlObject->trlcKwf('special', 'special foobar', array(), 'de'));
-        $this->assertEquals('5 dings', $this->_trlObject->trlKwf('{0} foo', array(5), 'de'));
-    }
-
-    public function testTrlTranslationNotFound()
-    {
-        $this->markTestIncomplete();
-        $modelKwf = new Kwf_Model_FnF(array(
-            'data' => array(
-                array('id' => 1, 'en' => 'foo', 'de' => 'dings'),
-                array('id' => 2, 'en' => 'foobar', 'de' => 'dingsbums'),
-                array('id' => 3, 'en' => 'foobar', 'en_plural' => 'foobars', 'de' => 'dingsbums', 'de_plural' => 'dingsbumse'),
-                array('id' => 4, 'context' => 'special', 'en' => 'special foobar', 'en_plural' => 'special foobars', 'de' => 'spezial dingsbums', 'de_plural' => 'spezial dingsbumse'),
-                array('id' => 5, 'context' => 'special', 'en' => 'special foobar', 'de' => 'spezial dingsbums'),
-                array('id' => 6, 'en' => '{0} foo', 'de' => '{0} dings')
-            )
-        ));
-
-        $modelWeb = new Kwf_Model_FnF(array(
-            'data' => array(
-            )
-        ));
-        $config['modelKwf'] = $modelKwf;
-        $config['modelWeb'] = $modelWeb;
-        $this->_trlObject = new Kwf_Trl($config);
-        $this->_trlObject->setLanguages(array('de', 'en'));
-        $this->_trlObject->setModel($modelKwf, 'kwf');
-        $this->assertEquals('notfound', $this->_trlObject->trlKwf('notfound', array()));
-    }
-
-    public function testTrlParserCleanup()
-    {
-        $this->markTestIncomplete();
-        $modelWeb = new Kwf_Trl_TestModel(array(
-            'columns' => array('id', 'en', 'de'),
-            'data' => array(
-                array('id' => 1, 'en' => 'foo', 'de' => 'dings'),
-                array('id' => 2, 'en' => 'foobar', 'de' => 'dingsbums')
-            )
-        ));
-
-        $modelKwf = new Kwf_Model_FnF(array(
-            'columns' => array('id', 'en', 'de'),
-            'data' => array(
-                array('id' => 1, 'en' => 'foo', 'de' => 'dings'),
-                array('id' => 2, 'en' => 'foobar', 'de' => 'dingsbums')
-            )
-        ));
-
-        $parser = new Kwf_Trl_Parser($modelKwf, $modelWeb, 'kwf', 'kwf');
-        $parser->setLanguages(array('en', 'de'));
-        $path = KWF_PATH."/tests/Kwf/Trl/TestParseFolder";
-        $results = $parser->parse(array('web' => $path, 'kwf' => $path), true);
-
-        $this->assertEquals(1, count($results['added']['Kwf_Model_FnF']));
-        $this->assertEquals(1, count($results['deleted']['Kwf_Model_FnF']));
-        $this->assertEquals("foo", $results['deleted']['Kwf_Model_FnF'][0]);
-
     }
 }
