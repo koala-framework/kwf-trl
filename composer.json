@@ -1,14 +1,10 @@
 {
     "name": "koala-framework/kwf-trl",
     "description": "Translation scripts for Koala Framework based applications",
-    "repositories": [{
-        "type": "vcs",
-        "url": "https://github.com/Ben-Ho/koala-framework"
-    }],
     "require": {
-        "koala-framework/koala-framework": "dev-master-trl",
-        "symfony/console": "2.6.*",
-        "symfony/finder": "2.6.*",
+        "koala-framework/koala-framework": "~3.9",
+        "symfony/console": "~2.6",
+        "symfony/finder": "~2.6",
         "sepia/po-parser": "4.2.*",
         "nikic/php-parser": "1.0.2"
     },
@@ -21,12 +17,6 @@
         }
     },
     "license": "BSD-2-Clause",
-    "authors": [
-        {
-            "name": "Benjamin Hohenwarter",
-            "email": "bh@vivid-planet.com"
-        }
-    ],
     "autoload": {
         "psr-0": { "Kwf\\Trl\\": "" }
     },
