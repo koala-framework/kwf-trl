@@ -53,7 +53,11 @@ class ParseCodeCommand extends Command
         $git = new \Kwf_Util_Git($directory);
         $git->fetch();
         $initBranch = $git->getActiveBranch();
-        $output->writeln('<info>Iterating over branches matching "^[3-9]+.[0-9]+$" and >=3.9</info>');
+        if ($kwfPoFilePath) {
+            $output->writeln('<info>Iterating over branches matching "^[1-9]+.[0-9]+$"</info>');
+        } else {
+            $output->writeln('<info>Iterating over branches matching "^[3-9]+.[0-9]+$" and >=3.9</info>');
+        }
         foreach ($git->getBranches('-r') as $branch) {
             if (strpos($branch, 'origin/') === false) continue;
             $splited = explode('/', $branch);
@@ -61,7 +65,7 @@ class ParseCodeCommand extends Command
             if (sizeof($splited) >= 3) continue;
             if (!$isVersionNumber && $splited[1] != 'master' && $splited[1] != 'production') continue;
 
-            if ($isVersionNumber && version_compare($splited[1], '3.9', '<')) continue;
+            if (!$kwfPoFilePath && $isVersionNumber && version_compare($splited[1], '3.9', '<')) continue;
 
             $output->writeln("<info>Checking out branch: $branch</info>");
             $git->checkout($branch);
