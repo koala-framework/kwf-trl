@@ -3,6 +3,8 @@
 require __DIR__ . '/../vendor/autoload.php';
 
 use Symfony\Component\Console\Application;
+use Kwf\Trl\ParseCodeCommand;
 
 $application = new Application('kwf-trl', '0.1');
+$application->add(new ParseCodeCommand);
 $application->run();
