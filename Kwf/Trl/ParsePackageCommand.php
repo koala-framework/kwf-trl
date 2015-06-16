@@ -19,12 +19,12 @@ class ParsePackageCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $packageName = $input->getArgument('package-name');
-        $packagePath = VENDOR_PATH."/$packageName";
+        $packagePath = "vendor/$packageName";
         $trlFolder = "$packagePath/trl";
         if (!is_dir($trlFolder)) {
             mkdir($trlFolder);
         }
-        $parseScript = new Parser($packagePath, "$trlFolder/en.po", 'trlKwf', $output, VENDOR_PATH.'/koala-framework/koala-framework/trl/en.po');
+        $parseScript = new Parser($packagePath, "$trlFolder/en.po", 'trlKwf', $output, 'vendor/koala-framework/koala-framework/trl/en.po');
         $parseScript->parse();
     }
 }

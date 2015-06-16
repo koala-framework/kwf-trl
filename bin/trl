@@ -7,8 +7,6 @@ use Kwf\Trl\ParseWebCommand;
 use Kwf\Trl\ParsePackageCommand;
 use Kwf\Trl\ParseKwfCommand;
 
-// define(VENDOR_PATH, 'vendor');
-
 $application = new Application('kwf-trl', '0.1');
 $application->add(new ParseWebCommand);
 $application->add(new ParsePackageCommand);

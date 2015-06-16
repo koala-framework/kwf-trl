@@ -17,7 +17,7 @@ class ParseKwfCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $packagePath = VENDOR_PATH."/koala-framework/koala-framework";
+        $packagePath = 'vendor/koala-framework/koala-framework';
         $trlFolder = "$packagePath/trl";
         if (!is_dir($trlFolder)) {
             mkdir($trlFolder);
