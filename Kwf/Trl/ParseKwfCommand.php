@@ -13,7 +13,6 @@ class ParseKwfCommand extends Command
     {
         $this->setName('parseKwf')
             ->setDescription('Parse koala-framework code for trlKwf function calls');
-//             ->addArgument('package-name', InputArgument::REQUIRED, 'Package-name of repository you want to parse against koala-framework');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
