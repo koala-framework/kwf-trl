@@ -2,8 +2,8 @@ Those scripts parse web, package or koala-framework (.js, .php, .tpl) for trl() 
 
 
 ### Usage: ###
-`php bin/trl parseWeb`
+`./bin/trl parseWeb`
 
-`php bin/trl parsePackage`
+`./bin/trl parsePackage`
 
-`php bin/trl parseKwf`
+`./bin/trl parseKwf`
