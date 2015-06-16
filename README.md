@@ -7,5 +7,3 @@ Those scripts parse web, package or koala-framework (.js, .php, .tpl) for trl() 
 `php bin/trl parsePackage`
 
 `php bin/trl parseKwf`
-
-Note: parsePackage requires vendor/koala-framework/koala-framework/trl/en.po to exist
