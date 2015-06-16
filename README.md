@@ -1,6 +1,10 @@
-This script parses a complete directory/package/web (.js, .php, .tpl) for trl() or trlKwf() function calls and generates a .po-file.
-If used for package or web define kwf-path to exclude trls covered by kwf
+Those scripts parse web, package or koala-framework (.js, .php, .tpl) for trl() or trlKwf() function calls and generates .po-files.
 
 
 ### Usage: ###
-`php bin/trl parseCode [-p|--poFile="..."] [-m|--mask="..."] [-k|--kwfpath="..."] [dir]`
+`php bin/trl parseWeb`
+
+`php bin/trl parsePackage`
+Note: It's required vendor/koala-framework/koala-framework/trl/en.po exists
+
+`php bin/trl parseKwf`
