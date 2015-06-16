@@ -1,5 +1,5 @@
 <?php
-namespace Kwf\Trl\Parse;
+namespace Kwf\Trl;
 
 use Kwf\Trl\Parse\ParsePhpForTrl;
 use Kwf\Trl\Parse\ParseJsForTrl;
@@ -8,7 +8,7 @@ use Kwf\Trl\Utils\PoFileGenerator;
 use Kwf\Trl\Utils\TrlElementsExtractor;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class Script
+class Parser
 {
     protected $_kwfPoFilePath;
     protected $_directory;

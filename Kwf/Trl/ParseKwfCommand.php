@@ -5,7 +5,7 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputArgument;
-use Kwf\Trl\Parse\Script;
+use Kwf\Trl\Parser;
 
 class ParseKwfCommand extends Command
 {
@@ -23,7 +23,7 @@ class ParseKwfCommand extends Command
         if (!is_dir($trlFolder)) {
             mkdir($trlFolder);
         }
-        $parseScript = new Script($packagePath, "$trlFolder/en.po", 'trlKwf', $output);
+        $parseScript = new Parser($packagePath, "$trlFolder/en.po", 'trlKwf', $output);
         $parseScript->parse();
     }
 }

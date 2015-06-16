@@ -4,7 +4,7 @@ namespace Kwf\Trl;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Kwf\Trl\Parse\Script;
+use Kwf\Trl\Parser;
 
 class ParseWebCommand extends Command
 {
@@ -22,7 +22,7 @@ class ParseWebCommand extends Command
         if (!is_dir('trl')) {
             mkdir('trl');
         }
-        $parseScript = new Script(getcwd(), $poFilePath, 'trl', $output);
+        $parseScript = new Parser(getcwd(), $poFilePath, 'trl', $output);
         $parseScript->parse();
     }
 }
