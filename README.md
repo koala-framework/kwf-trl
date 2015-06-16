@@ -5,6 +5,7 @@ Those scripts parse web, package or koala-framework (.js, .php, .tpl) for trl() 
 `php bin/trl parseWeb`
 
 `php bin/trl parsePackage`
-Note: It's required vendor/koala-framework/koala-framework/trl/en.po exists
 
 `php bin/trl parseKwf`
+
+Note: parsePackage requires vendor/koala-framework/koala-framework/trl/en.po to exist
