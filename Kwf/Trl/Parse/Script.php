@@ -73,7 +73,11 @@ class Script
             $this->_output->writeln('Parsing source directory...');
             $parser = new ParseAll($this->_directory, $this->_output);
             $trlElements = array_merge($parser->parseDirectoryForTrl(), $trlElements);
-            $errors = array_merge($parser->getErrors(), $errors);
+            $newErrors = $parser->getErrors();
+            foreach ($newErrors as $key => $error) {
+                $newErrors[$key]['branch'] = $branch;
+            }
+            $errors = array_merge($newErrors, $errors);
         }
         $git->checkout($initBranch);
 
