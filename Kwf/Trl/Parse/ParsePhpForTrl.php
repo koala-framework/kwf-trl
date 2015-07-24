@@ -54,7 +54,7 @@ class ParsePhpForTrl {
             $this->_codeContent = $file->getContents();
             try {
                 foreach ($this->parseContent() as $trlElementOfFile) {
-                    $trlElementOfFile['file'] = $file;
+                    $trlElementOfFile['file'] = $file->getRealpath();
                     $trlElements[] = $trlElementOfFile;
                 }
             } catch(\PhpParser\Error $e) {
