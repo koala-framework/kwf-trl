@@ -13,9 +13,9 @@ class PoFileGenerator
         $this->_kwfTrlElements = $kwfTrlElements;
     }
 
-    public function generatePoFileObject()
+    public function generatePoFileObject($filePath)
     {
-        $poFile = new \Sepia\PoParser;
+        $poFile = new \Sepia\PoParser(new \Sepia\FileHandler($filePath));
         foreach ($this->_trlElements as $trlElement) {
             if (isset($trlElement['error_short'])) {
                 $this->_errors[] = $trlElement;
@@ -32,18 +32,22 @@ class PoFileGenerator
                 }
             }
             if ($trlFoundInKwf) continue;
+            $poElement = array(
+                'msgid' => $trlElement['text'],
+                'msgstr' => $trlElement['text']
+            );
             if ($trlElement['type'] == 'trlcp') {
-                $poFile->updateEntry($trlElement['text'], $trlElement['text'], array(), array(), array(), true);
-                $poFile->updateEntryPlural($trlElement['text'], $trlElement['plural']);
-                $poFile->updateEntryContext($trlElement['text'], $trlElement['context']);
+                $poFile->setEntry($trlElement['text'], $poElement, true);
+                $poFile->setEntryPlural($trlElement['text'], $trlElement['plural']);
+                $poFile->setEntryContext($trlElement['text'], $trlElement['context']);
             } else if ($trlElement['type'] ==  'trlc') {
-                $poFile->updateEntry($trlElement['text'], $trlElement['text'], array(), array(), array(), true);
-                $poFile->updateEntryContext($trlElement['text'], $trlElement['context']);
+                $poFile->setEntry($trlElement['text'], $poElement, true);
+                $poFile->setEntryContext($trlElement['text'], $trlElement['context']);
             } else if ($trlElement['type'] == 'trlp') {
-                $poFile->updateEntry($trlElement['text'], $trlElement['text'], array(), array(), array(), true);
-                $poFile->updateEntryPlural($trlElement['text'], $trlElement['plural']);
+                $poFile->setEntry($trlElement['text'], $poElement, true);
+                $poFile->setEntryPlural($trlElement['text'], $trlElement['plural']);
             } else if ($trlElement['type'] == 'trl') {
-                $poFile->updateEntry($trlElement['text'], $trlElement['text'], array(), array(), array(), true);
+                $poFile->setEntry($trlElement['text'], $poElement, true);
             }
         }
         return $poFile;

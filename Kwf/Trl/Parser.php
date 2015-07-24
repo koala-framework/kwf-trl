@@ -83,8 +83,10 @@ class Parser
 
         // generate po file
         $this->_output->writeln('Generate Po-File...');
+        touch($this->_poFilePath);
+        $this->_output->writeln($this->_poFilePath);
         $poFileGenerator = new PoFileGenerator($trlElements, $kwfTrlElements);
-        $poFile = $poFileGenerator->generatePoFileObject();
+        $poFile = $poFileGenerator->generatePoFileObject($this->_poFilePath);
         $poFile->writeFile($this->_poFilePath);
 
         $this->_output->writeln('Trl Errors:');
