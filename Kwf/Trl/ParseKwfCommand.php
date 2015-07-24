@@ -12,12 +12,13 @@ class ParseKwfCommand extends Command
     protected function configure()
     {
         $this->setName('parseKwf')
-            ->setDescription('Parse koala-framework code for trlKwf function calls');
+            ->setDescription('Parse koala-framework code for trlKwf function calls')
+            ->addArgument('kwf-path', InputArgument::REQUIRED, 'Path to kwf-folder you want to parse');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $packagePath = 'vendor/koala-framework/koala-framework';
+        $packagePath = $input->getArgument('kwf-path');
         $trlFolder = "$packagePath/trl";
         if (!is_dir($trlFolder)) {
             mkdir($trlFolder);
