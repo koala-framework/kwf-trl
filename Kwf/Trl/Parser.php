@@ -31,8 +31,7 @@ class Parser
         $kwfTrlElements = array();
         if ($this->_kwfPoFilePath) {
             $this->_output->writeln('<info>Reading kwf-po file</info>');
-            $kwfPoFile = new \Sepia\PoParser;
-            $kwfPoFile->parseFile($this->_kwfPoFilePath);
+            $kwfPoFile = \Sepia\PoParser::parseFile($this->_kwfPoFilePath);
             $trlElementsExtractor = new TrlElementsExtractor($kwfPoFile);
             $kwfTrlElements = $trlElementsExtractor->extractTrlElements();
         }
