@@ -8,15 +8,22 @@ class ParsePhpForTrlVisitor extends \PhpParser\NodeVisitorAbstract
     public function enterNode(\PhpParser\Node $node)
     {
         if ($node instanceof \PhpParser\Node\Expr\FuncCall || $node instanceof \PhpParser\Node\Expr\MethodCall) {
-            if (!($node->name instanceof \PhpParser\Node\Name)) return;
+            if (!($node->name instanceof \PhpParser\Node\Name) && !(is_string($node->name))) {
+                return;
+            }
 
+            $methodCall = false;
+            if (is_string($node->name)) {
+                $methodCall = true;
+            }
             $functionName = (string)$node->name;
             $trlElement = null;
             if ($functionName == 'trlcp' || $functionName == 'trlcpStatic'
                 || $functionName == 'trlcpKwf' || $functionName == 'trlcpKwfStatic'
             ) {
                 $trlElement = array('type' => 'trlcp');
-                if (count($node->args) != 4) { // context, singular, plural, variables
+                $argCount = $methodCall ? 5 : 4;
+                if (count($node->args) != $argCount) { // context, singular, plural, variables
                     $trlElement['error_short'] = ParsePhpForTrl::ERROR_WRONG_NR_OF_ARGUMENTS;
                 } else if ($node->args[0]->value->getType() != 'Scalar_String'
                     || $node->args[1]->value->getType() != 'Scalar_String'
@@ -32,7 +39,8 @@ class ParsePhpForTrlVisitor extends \PhpParser\NodeVisitorAbstract
                 || $functionName == 'trlcKwf' || $functionName == 'trlcKwfStatic'
             ) {
                 $trlElement = array('type' => 'trlc');
-                if (count($node->args) != 2 && count($node->args) != 3) { // context, singular[, variables]
+                $argCount = $methodCall ? array(2,3,4) : array(2,3);
+                if (!in_array(count($node->args), $argCount)) { // context, singular[, variables]
                     $trlElement['error_short'] = ParsePhpForTrl::ERROR_WRONG_NR_OF_ARGUMENTS;
                 } else if ($node->args[0]->value->getType() != 'Scalar_String'
                     || $node->args[1]->value->getType() != 'Scalar_String'
@@ -46,9 +54,10 @@ class ParsePhpForTrlVisitor extends \PhpParser\NodeVisitorAbstract
                 || $functionName == 'trlpKwf' || $functionName == 'trlpKwfStatic'
             ) {
                 $trlElement = array('type' => 'trlp');
-                if (count($node->args) != 3) { // singular, plural, variables
+                $argCount = $methodCall ? array(3,4) : array(3);
+                if (!in_array(count($node->args), $argCount)) { // singular, plural, variables
                     $trlElement['error_short'] = ParsePhpForTrl::ERROR_WRONG_NR_OF_ARGUMENTS;
-                } else if($node->args[0]->value->getType() != 'Scalar_String'
+                } else if ($node->args[0]->value->getType() != 'Scalar_String'
                     || $node->args[1]->value->getType() != 'Scalar_String'
                 ) {
                     $trlElement['error_short'] = ParsePhpForTrl::ERROR_WRONG_ARGUMENT_TYPE;
@@ -60,9 +69,10 @@ class ParsePhpForTrlVisitor extends \PhpParser\NodeVisitorAbstract
                 || $functionName == 'trlKwf' || $functionName == 'trlKwfStatic'
             ) {
                 $trlElement = array('type' => 'trl');
-                if (count($node->args) != 1 && count($node->args) != 2) { // singular[, variables]
+                $argCount = $methodCall ? array(1,2,3) : array(1,2);
+                if (!in_array(count($node->args), $argCount)) { // singular[, variables]
                     $trlElement['error_short'] = ParsePhpForTrl::ERROR_WRONG_NR_OF_ARGUMENTS;
-                } else if($node->args[0]->value->getType() != 'Scalar_String') {
+                } else if ($node->args[0]->value->getType() != 'Scalar_String') {
                     $trlElement['error_short'] = ParsePhpForTrl::ERROR_WRONG_ARGUMENT_TYPE;
                 } else {
                     $trlElement['text'] = $node->args[0]->value->value;

@@ -10,6 +10,42 @@ class ParsePhpForTrlTest extends PHPUnit_Framework_TestCase
         $this->_parserObject = new ParsePhpForTrl;
     }
 
+    public function testTrlMethodCalls()
+    {
+        $content = "<?php \$trl->trl('testWord');";
+        $this->_parserObject->setCodeContent($content);
+        $values = $this->_parserObject->parseContent();
+
+        $content = "<?php \$trl->trlc('testWord');";
+        $this->_parserObject->setCodeContent($content);
+        $values = $this->_parserObject->parseContent();
+
+        $content = "<?php \$trl->trlp('testWord');";
+        $this->_parserObject->setCodeContent($content);
+        $values = $this->_parserObject->parseContent();
+
+        $content = "<?php \$trl->trlcp('testWord');";
+        $this->_parserObject->setCodeContent($content);
+        $values = $this->_parserObject->parseContent();
+
+
+        $content = "<?php \$trl->trlKwf('testWord');";
+        $this->_parserObject->setCodeContent($content);
+        $values = $this->_parserObject->parseContent();
+
+        $content = "<?php \$trl->trlcKwf('testWord');";
+        $this->_parserObject->setCodeContent($content);
+        $values = $this->_parserObject->parseContent();
+
+        $content = "<?php \$trl->trlpKwf('testWord');";
+        $this->_parserObject->setCodeContent($content);
+        $values = $this->_parserObject->parseContent();
+
+        $content = "<?php \$trl->trlcpKwf('testWord');";
+        $this->_parserObject->setCodeContent($content);
+        $values = $this->_parserObject->parseContent();
+    }
+
     public function testTrlParsePhpStatic()
     {
         $this->_parserObject->setCodeContent("<?php trlStatic('testWord');");
