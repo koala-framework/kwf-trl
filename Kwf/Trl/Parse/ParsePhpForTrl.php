@@ -9,6 +9,7 @@ class ParsePhpForTrl {
     protected $_codeContent;
     protected $_fileFinder;
     protected $_errors;
+    protected $_ignoredFiles;
 
     const ERROR_INVALID_STRING = 'invalidString';
     const ERROR_WRONG_NR_OF_ARGUMENTS = 'wrongNrOfArguments';
@@ -32,6 +33,11 @@ class ParsePhpForTrl {
         $this->_fileFinder->files();
     }
 
+    public function setIgnoredFiles($paths)
+    {
+        $this->_ignoredFiles = $paths;
+    }
+
     public function setCodeDirectory($dir)
     {
         $this->_fileFinder->in($dir);
@@ -50,6 +56,7 @@ class ParsePhpForTrl {
         $output->writeln('PHP-Files:');
         $progress = new ProgressBar($output, $fileCount);
         foreach ($this->_fileFinder as $file) {
+            if (in_array($file, $this->_ignoredFiles)) continue;
             $progress->advance();
             $this->_codeContent = $file->getContents();
             try {

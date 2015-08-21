@@ -15,6 +15,8 @@ class Parser
     protected $_poFilePath;
     protected $_mask;
 
+    protected $_ignoredFiles;
+
     protected $_output;
 
     function __construct($directory, $poFilePath, $mask, $output, $kwfPoFilePath = false)
@@ -24,6 +26,11 @@ class Parser
         $this->_poFilePath = $poFilePath;
         $this->_mask = $mask;
         $this->_output = $output;
+    }
+
+    public function setIgnoredFiles($paths)
+    {
+        $this->_ignoredFiles = $paths;
     }
 
     public function parse()
@@ -71,6 +78,7 @@ class Parser
             // parse package
             $this->_output->writeln('Parsing source directory...');
             $parser = new ParseAll($this->_directory, $this->_output);
+            $parser->setIgnoredFiles($this->_ignoredFiles);
             $trlElements = array_merge($parser->parseDirectoryForTrl(), $trlElements);
             $newErrors = $parser->getErrors();
             foreach ($newErrors as $key => $error) {
@@ -88,6 +96,7 @@ class Parser
         $poFile = $poFileGenerator->generatePoFileObject($this->_poFilePath);
         $poFile->writeFile($this->_poFilePath);
 
+        $this->_output->writeln('');
         $this->_output->writeln('Trl Errors:');
         foreach ($trlElements as $trlElement) {
             if (isset($trlElement['error_short']) && $trlElement['error_short']) {
@@ -96,9 +105,12 @@ class Parser
         }
 
         if (count($errors)) {
+            $this->_output->writeln('');
             $this->_output->writeln('Php Parse-Errors:');
             foreach ($errors as $error) {
-                var_dump($error);
+                $this->_output->writeln('  Branch: '.$error['branch'].' | File: '.$error['file']);
+                $this->_output->writeln('    Error:'.$error['error']->getMessage());
+                $this->_output->writeln('  -------------------------------------');
             }
         }
     }
