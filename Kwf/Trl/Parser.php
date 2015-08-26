@@ -1,12 +1,10 @@
 <?php
 namespace Kwf\Trl;
 
-use Kwf\Trl\Parse\ParsePhpForTrl;
-use Kwf\Trl\Parse\ParseJsForTrl;
+use Gitonomy\Git\Repository;
 use Kwf\Trl\Parse\ParseAll;
 use Kwf\Trl\Utils\PoFileGenerator;
 use Kwf\Trl\Utils\TrlElementsExtractor;
-use Symfony\Component\Console\Output\OutputInterface;
 
 class Parser
 {
@@ -45,36 +43,40 @@ class Parser
 
         $initDir = getcwd();
         $this->_output->writeln('<info>Changing into directory</info>');
-        chdir($this->_directory);
-        exec('git diff', $diff, $ret);
-        exec('git diff --cached', $diffCached, $ret);
-        if ($diff || $diffCached) {
+        $repository = new Repository($this->_directory);
+        $wc = $repository->getWorkingCopy();
+
+        if ($wc->getDiffPending()->getRawDiff() != ''
+            || $wc->getDiffStaged()->getRawDiff() != ''
+        ) {
             $this->_output->writeln('<error>Uncommited changes</error>');
             exit;
         }
+
         chdir($initDir);
+        $initBranch = trim($repository->run('rev-parse', array('--abbrev-ref', 'HEAD')));
 
         $trlElements = array();
         $errors = array();
-        $git = new \Kwf_Util_Git($this->_directory);
-        $git->fetch();
-        $initBranch = $git->getActiveBranch();
+        $repository = new Repository($this->_directory);
+        $repository->run('fetch');
         if ($this->_kwfPoFilePath) {
             $this->_output->writeln('<info>Iterating over branches matching "^[1-9]+.[0-9]+$"</info>');
         } else {
             $this->_output->writeln('<info>Iterating over branches matching "^[3-9]+.[0-9]+$" and >=3.9</info>');
         }
-        foreach ($git->getBranches('-r') as $branch) {
-            if (strpos($branch, 'origin/') === false) continue;
-            $splited = explode('/', $branch);
+        foreach ($repository->getReferences()->getBranches() as $branch) {
+            $branchName = $branch->getName();
+            if (strpos($branchName, 'origin/') === false) continue;
+            $splited = explode('/', $branchName);
             $isVersionNumber = preg_match('/^[0-9]+.[0-9]+$/i', $splited[1]);
             if (sizeof($splited) >= 3) continue;
             if (!$isVersionNumber && $splited[1] != 'master' && $splited[1] != 'production') continue;
 
             if (!$this->_kwfPoFilePath && $isVersionNumber && version_compare($splited[1], '3.9', '<')) continue;
 
-            $this->_output->writeln("<info>Checking out branch: $branch</info>");
-            $git->checkout($branch);
+            $this->_output->writeln("<info>Checking out branch: $branchName</info>");
+            $wc->checkout($branchName);
             // parse package
             $this->_output->writeln('Parsing source directory...');
             $parser = new ParseAll($this->_directory, $this->_output);
@@ -82,16 +84,17 @@ class Parser
             $trlElements = array_merge($parser->parseDirectoryForTrl(), $trlElements);
             $newErrors = $parser->getErrors();
             foreach ($newErrors as $key => $error) {
-                $newErrors[$key]['branch'] = $branch;
+                $newErrors[$key]['branch'] = $branchName;
             }
             $errors = array_merge($newErrors, $errors);
         }
-        $git->checkout($initBranch);
+        $wc->checkout($initBranch);
 
         // generate po file
         $this->_output->writeln('Generate Po-File...');
         touch($this->_poFilePath);
         $this->_output->writeln($this->_poFilePath);
+
         $poFileGenerator = new PoFileGenerator($trlElements, $kwfTrlElements);
         $poFile = $poFileGenerator->generatePoFileObject($this->_poFilePath);
         $poFile->writeFile($this->_poFilePath);

@@ -4,8 +4,60 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "afa8751cc0fd50f5637c659957f4abaa",
+    "hash": "86f1543189c048371751c620f725c58e",
     "packages": [
+        {
+            "name": "gitonomy/gitlib",
+            "version": "v0.1.7",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/gitonomy/gitlib.git",
+                "reference": "7a46107cfb8552b312101e0d5906e95d54d7ddc6"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/gitonomy/gitlib/zipball/7a46107cfb8552b312101e0d5906e95d54d7ddc6",
+                "reference": "7a46107cfb8552b312101e0d5906e95d54d7ddc6",
+                "shasum": ""
+            },
+            "require": {
+                "symfony/process": "~2.4"
+            },
+            "require-dev": {
+                "psr/log": "~1"
+            },
+            "suggest": {
+                "psr/log": "Add some log"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "Gitonomy\\Git": [
+                        "src/",
+                        "tests/"
+                    ]
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Alexandre Salomé",
+                    "email": "alexandre.salome@gmail.com",
+                    "homepage": "http://alexandre-salome.fr"
+                },
+                {
+                    "name": "Julien DIDIER",
+                    "email": "genzo.wm@gmail.com",
+                    "homepage": "http://www.jdidier.net"
+                }
+            ],
+            "description": "Library for accessing git",
+            "homepage": "http://gitonomy.com",
+            "time": "2014-07-13 19:02:31"
+        },
         {
             "name": "koala-framework/composer-extra-assets",
             "version": "v1.1.0",
