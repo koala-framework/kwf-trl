@@ -1,6 +1,8 @@
 <?php
 namespace Kwf\Trl\Utils;
 
+use Kwf\Trl\PoParser;
+
 class PoFileGenerator
 {
     protected $_trlElements;
@@ -15,7 +17,7 @@ class PoFileGenerator
 
     public function generatePoFileObject($filePath)
     {
-        $poFile = new \Sepia\PoParser(new \Sepia\FileHandler($filePath));
+        $poFile = new PoParser(new \Sepia\FileHandler($filePath));
         foreach ($this->_trlElements as $trlElement) {
             if (isset($trlElement['error_short'])) {
                 $this->_errors[] = $trlElement;
