@@ -37,17 +37,23 @@ class PoFileGenerator
                 'msgstr' => $trlElement['text']
             );
             if ($trlElement['type'] == 'trlcp') {
-                $poFile->setEntry($trlElement['text'], $poElement, true);
-                $poFile->setEntryPlural($trlElement['text'], $trlElement['plural']);
-                $poFile->setEntryContext($trlElement['text'], $trlElement['context']);
+                $poElement['msgid_plural'] = $trlElement['plural'];
+                $poElement['msgctxt'] = array($trlElement['context']);
+                $entryId = $poFile->getEntryId($poElement);
+                $poFile->setEntry($entryId, $poElement, true);
             } else if ($trlElement['type'] ==  'trlc') {
-                $poFile->setEntry($trlElement['text'], $poElement, true);
-                $poFile->setEntryContext($trlElement['text'], $trlElement['context']);
+                $poElement['msgctxt'] = array($trlElement['context']);
+                $entryId = $poFile->getEntryId($poElement);
+                $poFile->setEntry($entryId, $poElement, true);
             } else if ($trlElement['type'] == 'trlp') {
-                $poFile->setEntry($trlElement['text'], $poElement, true);
-                $poFile->setEntryPlural($trlElement['text'], $trlElement['plural']);
+                $poElement['msgid_plural'] = $trlElement['plural'];
+                $entryId = $poFile->getEntryId($poElement);
+                $poFile->setEntry($entryId, $poElement, true);
+                $poFile->setEntryPlural($entryId, $trlElement['plural']);
             } else if ($trlElement['type'] == 'trl') {
-                $poFile->setEntry($trlElement['text'], $poElement, true);
+                $entryId = $poFile->getEntryId($poElement);
+                if (isset($poFile->entries()[$entryId])) continue;
+                $poFile->setEntry($entryId, $poElement, true);
             }
         }
         return $poFile;
