@@ -26,7 +26,8 @@ class ParseKwfCommand extends Command
         $parseScript = new Parser($packagePath, "$trlFolder/en.po", 'trlKwf', $output);
         $parseScript->setIgnoredFiles(array(
             "$packagePath/Kwf/Trl.php",
-            "$packagePath/Kwf/Component/Data.php"
+            "$packagePath/Kwf/Component/Data.php",
+            "$packagePath/Kwf/Controller/Action/Debug/ApcController.php"
         ));
         $parseScript->parse();
     }
