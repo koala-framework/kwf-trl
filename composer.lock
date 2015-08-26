@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "86f1543189c048371751c620f725c58e",
+    "hash": "3de174ad9567108ddca9b16d0793963f",
     "packages": [
         {
             "name": "gitonomy/gitlib",
@@ -240,16 +240,16 @@
         },
         {
             "name": "sepia/po-parser",
-            "version": "dev-master",
+            "version": "4.2.1",
             "source": {
                 "type": "git",
-                "url": "https://github.com/Ben-Ho/PHP-po-parser.git",
-                "reference": "40c313c6b40244f55c9dcd4be64939c7a6c07a4e"
+                "url": "https://github.com/raulferras/PHP-po-parser.git",
+                "reference": "4906b3bc357e1028b84c3cb0ee1d1d1970a21fbb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Ben-Ho/PHP-po-parser/zipball/40c313c6b40244f55c9dcd4be64939c7a6c07a4e",
-                "reference": "40c313c6b40244f55c9dcd4be64939c7a6c07a4e",
+                "url": "https://api.github.com/repos/raulferras/PHP-po-parser/zipball/4906b3bc357e1028b84c3cb0ee1d1d1970a21fbb",
+                "reference": "4906b3bc357e1028b84c3cb0ee1d1d1970a21fbb",
                 "shasum": ""
             },
             "require": {
@@ -265,6 +265,7 @@
                     "Sepia": "src/"
                 }
             },
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -283,11 +284,7 @@
                 "i18n",
                 "po"
             ],
-            "support": {
-                "issues": "https://github.com/raulferras/PHP-po-parser/issues",
-                "source": "https://github.com/Ben-Ho/PHP-po-parser/tree/master"
-            },
-            "time": "2015-08-26 09:20:40"
+            "time": "2015-06-09 08:01:21"
         },
         {
             "name": "symfony/console",
@@ -858,18 +855,10 @@
             "time": "2015-07-28 14:07:07"
         }
     ],
-    "aliases": [
-        {
-            "alias": "4.2.1",
-            "alias_normalized": "4.2.1.0",
-            "version": "9999999-dev",
-            "package": "sepia/po-parser"
-        }
-    ],
+    "aliases": [],
     "minimum-stability": "dev",
     "stability-flags": {
-        "koala-framework/kwf-trl-jsparser": 20,
-        "sepia/po-parser": 20
+        "koala-framework/kwf-trl-jsparser": 20
     },
     "prefer-stable": true,
     "prefer-lowest": false,
