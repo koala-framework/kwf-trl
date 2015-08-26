@@ -21,15 +21,15 @@ class ParseJsForTrl {
     {
         $trlElements = array();
         $fileCount = iterator_count($this->_fileFinder);
-//         $output->writeln('JS-Files:');
-//         $progress = new ProgressBar($output, $fileCount);
+        $output->writeln('JS-Files:');
+        $progress = new ProgressBar($output, $fileCount);
         foreach ($this->_fileFinder as $file) {
             if (strpos($file, 'ext-lang-en.js') === false) continue;
-//             $progress->advance();
+             $progress->advance();
             $trlElements = array_merge($trlElements, \Kwf_Trl_Parser_JsParser::parseContent($file->getContents()));
         }
-//         $progress->finish();
-//         $output->writeln('');
+        $progress->finish();
+        $output->writeln('');
         return $trlElements;
     }
 }
