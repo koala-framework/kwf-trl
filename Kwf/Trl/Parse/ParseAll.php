@@ -6,7 +6,7 @@ class ParseAll
     protected $_directory;
     protected $_errors;
     protected $_output;
-    protected $_ignoredFiles;
+    protected $_ignoredFiles = array();
 
     public function __construct($directory, $output)
     {

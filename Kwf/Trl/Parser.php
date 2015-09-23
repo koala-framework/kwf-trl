@@ -13,7 +13,7 @@ class Parser
     protected $_poFilePath;
     protected $_mask;
 
-    protected $_ignoredFiles;
+    protected $_ignoredFiles = array();
 
     protected $_output;
 
