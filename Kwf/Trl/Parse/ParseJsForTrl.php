@@ -26,7 +26,7 @@ class ParseJsForTrl {
         foreach ($this->_fileFinder as $file) {
             if (strpos($file, 'ext-lang-en.js') !== false) continue;
             $progress->advance();
-            $trlElements = array_merge($trlElements, \Kwf_Trl_Parser_JsParser::parseContent($file->getContents()));
+            $trlElements = array_merge($trlElements, \Kwf_TrlJsParser_JsParser::parseContent($file->getContents()));
         }
         $progress->finish();
         $output->writeln('');
