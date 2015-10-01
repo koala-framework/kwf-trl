@@ -5,6 +5,7 @@
         "This file is @generated automatically"
     ],
     "hash": "3de174ad9567108ddca9b16d0793963f",
+    "content-hash": "50932737e0bce635c1654edcd33aebf1",
     "packages": [
         {
             "name": "gitonomy/gitlib",
@@ -107,12 +108,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/koala-framework/kwf-trl-jsparser.git",
-                "reference": "8e8bdf926dfb9e6dbeee7859877faee8f208b70f"
+                "reference": "9fde1d7d47a5329a7b35decb54baf940ef3c2d10"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/koala-framework/kwf-trl-jsparser/zipball/8e8bdf926dfb9e6dbeee7859877faee8f208b70f",
-                "reference": "8e8bdf926dfb9e6dbeee7859877faee8f208b70f",
+                "url": "https://api.github.com/repos/koala-framework/kwf-trl-jsparser/zipball/9fde1d7d47a5329a7b35decb54baf940ef3c2d10",
+                "reference": "9fde1d7d47a5329a7b35decb54baf940ef3c2d10",
                 "shasum": ""
             },
             "require": {
@@ -130,12 +131,12 @@
             },
             "autoload": {
                 "psr-0": {
-                    "Kwf_": ""
+                    "Kwf_TrlJsParser_": ""
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
             "description": "Parses js code for trl-calls and returns list",
-            "time": "2015-08-21 07:30:42"
+            "time": "2015-10-01 13:35:27"
         },
         {
             "name": "mouf/nodejs-installer",
@@ -291,12 +292,12 @@
             "version": "v2.7.3",
             "source": {
                 "type": "git",
-                "url": "https://github.com/symfony/Console.git",
+                "url": "https://github.com/symfony/console.git",
                 "reference": "d6cf02fe73634c96677e428f840704bfbcaec29e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/Console/zipball/d6cf02fe73634c96677e428f840704bfbcaec29e",
+                "url": "https://api.github.com/repos/symfony/console/zipball/d6cf02fe73634c96677e428f840704bfbcaec29e",
                 "reference": "d6cf02fe73634c96677e428f840704bfbcaec29e",
                 "shasum": ""
             },
