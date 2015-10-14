@@ -38,6 +38,7 @@ class PoFileGenerator
                 'msgid' => $trlElement['text'],
                 'msgstr' => $trlElement['text']
             );
+            // trl('Category') and trlp('Category', 'Categories', X) becomes a single entry in po file
             if ($trlElement['type'] == 'trlcp') {
                 $poElement['msgctxt'] = array($trlElement['context']);
                 $entryId = $poFile->getEntryId($poElement);
@@ -48,10 +49,10 @@ class PoFileGenerator
             } else if ($trlElement['type'] ==  'trlc') {
                 $poElement['msgctxt'] = array($trlElement['context']);
                 $entryId = $poFile->getEntryId($poElement);
-                if (isset($poFile->entries()[$entryId])) continue;
-                $poFile->setEntry($entryId, $poElement, true);
+                if (!isset($poFile->entries()[$entryId])) {
+                    $poFile->setEntry($entryId, $poElement, true);
+                }
             } else if ($trlElement['type'] == 'trlp') {
-                $poElement['msgid_plural'] = $trlElement['plural'];
                 $entryId = $poFile->getEntryId($poElement);
                 if (!isset($poFile->entries()[$entryId])) {
                     $poFile->setEntry($entryId, $poElement, true);
@@ -59,8 +60,9 @@ class PoFileGenerator
                 $poFile->setEntryPlural($entryId, $trlElement['plural']);
             } else if ($trlElement['type'] == 'trl') {
                 $entryId = $poFile->getEntryId($poElement);
-                if (isset($poFile->entries()[$entryId])) continue;
-                $poFile->setEntry($entryId, $poElement, true);
+                if (!isset($poFile->entries()[$entryId])) {
+                    $poFile->setEntry($entryId, $poElement, true);
+                }
             }
         }
         return $poFile;
