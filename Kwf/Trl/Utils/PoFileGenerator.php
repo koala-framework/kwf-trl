@@ -42,14 +42,17 @@ class PoFileGenerator
                 $poElement['msgid_plural'] = $trlElement['plural'];
                 $poElement['msgctxt'] = array($trlElement['context']);
                 $entryId = $poFile->getEntryId($poElement);
+                if (isset($poFile->entries()[$entryId])) continue;
                 $poFile->setEntry($entryId, $poElement, true);
             } else if ($trlElement['type'] ==  'trlc') {
                 $poElement['msgctxt'] = array($trlElement['context']);
                 $entryId = $poFile->getEntryId($poElement);
+                if (isset($poFile->entries()[$entryId])) continue;
                 $poFile->setEntry($entryId, $poElement, true);
             } else if ($trlElement['type'] == 'trlp') {
                 $poElement['msgid_plural'] = $trlElement['plural'];
                 $entryId = $poFile->getEntryId($poElement);
+                if (isset($poFile->entries()[$entryId])) continue;
                 $poFile->setEntry($entryId, $poElement, true);
                 $poFile->setEntryPlural($entryId, $trlElement['plural']);
             } else if ($trlElement['type'] == 'trl') {
