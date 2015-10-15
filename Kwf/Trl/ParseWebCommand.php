@@ -22,7 +22,7 @@ class ParseWebCommand extends Command
         if (!is_dir('trl')) {
             mkdir('trl');
         }
-        $parseScript = new Parser(getcwd(), $poFilePath, 'trl', $output);
+        $parseScript = new Parser(getcwd(), $poFilePath, 'web', $output);
         $parseScript->parse();
     }
 }

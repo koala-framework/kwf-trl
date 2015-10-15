@@ -11,18 +11,18 @@ class Parser
     protected $_kwfPoFilePath;
     protected $_directory;
     protected $_poFilePath;
-    protected $_mask;
+    protected $_source;
 
     protected $_ignoredFiles = array();
 
     protected $_output;
 
-    function __construct($directory, $poFilePath, $mask, $output, $kwfPoFilePath = false)
+    function __construct($directory, $poFilePath, $source, $output, $kwfPoFilePath = false)
     {
         $this->_kwfPoFilePath = $kwfPoFilePath;
         $this->_directory = $directory;
         $this->_poFilePath = $poFilePath;
-        $this->_mask = $mask;
+        $this->_source = $source;
         $this->_output = $output;
     }
 
@@ -89,6 +89,16 @@ class Parser
             $errors = array_merge($newErrors, $errors);
         }
         $wc->checkout($initBranch);
+
+        $sources = array();
+        $filteredTrlElements = array();
+        foreach ($trlElements as $trlElement) {
+            $sources[$trlElement['source']] = true;
+            if ($trlElement['source'] == $this->_source) {
+                $filteredTrlElements[] = $trlElement;
+            }
+        }
+        $trlElements = $filteredTrlElements;
 
         // generate po file
         $this->_output->writeln('Generate Po-File...');
