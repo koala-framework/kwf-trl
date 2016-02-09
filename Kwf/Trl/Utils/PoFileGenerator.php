@@ -18,6 +18,9 @@ class PoFileGenerator
     public function generatePoFileObject($filePath)
     {
         $poFile = new PoParser(new \Sepia\FileHandler($filePath));
+        $poFile->setHeaders(array(
+            '"Content-Type: text/plain; charset=UTF-8\n"'
+        ));
         foreach ($this->_trlElements as $trlElement) {
             if (isset($trlElement['error_short'])) {
                 $this->_errors[] = $trlElement;
