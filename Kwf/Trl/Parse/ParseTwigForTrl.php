@@ -89,16 +89,14 @@ class ParseTwigForTrl {
                 foreach ($node->getIterator() as $childNode) {
                     if ($childNode instanceof \Twig_Node_Expression_Array) {
                         foreach ($childNode->getIterator() as $argument) {
-                            if ($argument instanceof \Twig_Node_Expression_Constant) {
-                                $arguments[] = $argument->getAttribute('value');
-                            }
+                            $arguments[] = $argument;
                         }
                     }
                 }
                 $trlElement = array(
                     'type' => $trlType,
                     'error_short' => '',
-                    'linenr' => 'unknown'
+                    'linenr' => $arguments[0]->getLine()
                 );
                 if (strpos($trlType, 'Kwf') !== false) {
                     $trlElement['source'] = 'kwf';
@@ -109,29 +107,29 @@ class ParseTwigForTrl {
                     if (!in_array(count($arguments), array(8))) {
                         $trlElement['error_short'] = self::ERROR_WRONG_NR_OF_ARGUMENTS;
                     } else {
-                        $trlElement['context'] = $arguments[1];
-                        $trlElement['text'] = $arguments[3];
-                        $trlElement['plural'] = $arguments[5];
+                        $trlElement['context'] = $arguments[1]->getAttribute('value');
+                        $trlElement['text'] = $arguments[3]->getAttribute('value');
+                        $trlElement['plural'] = $arguments[5]->getAttribute('value');
                     }
                 } else if ($trlType == 'trlc') {
                     if (!in_array(count($arguments), array(4, 6))) {
                         $trlElement['error_short'] = self::ERROR_WRONG_NR_OF_ARGUMENTS;
                     } else {
-                        $trlElement['context'] = $arguments[1];
-                        $trlElement['text'] = $arguments[3];
+                        $trlElement['context'] = $arguments[1]->getAttribute('value');
+                        $trlElement['text'] = $arguments[3]->getAttribute('value');
                     }
                 } else if ($trlType == 'trlp') {
                     if (!in_array(count($arguments), array(6))) {
                         $trlElement['error_short'] = self::ERROR_WRONG_NR_OF_ARGUMENTS;
                     } else {
-                        $trlElement['text'] = $arguments[1];
-                        $trlElement['plural'] = $arguments[3];
+                        $trlElement['text'] = $arguments[1]->getAttribute('value');
+                        $trlElement['plural'] = $arguments[3]->getAttribute('value');
                     }
                 } else if ($trlType == 'trl') {
                     if (!in_array(count($arguments), array(2, 4))) {
                         $trlElement['error_short'] = self::ERROR_WRONG_NR_OF_ARGUMENTS;
                     } else {
-                        $trlElement['text'] = $arguments[1];
+                        $trlElement['text'] = $arguments[1]->getAttribute('value');
                     }
                 }
                 $trlElements[] = $trlElement;
