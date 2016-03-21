@@ -21,6 +21,10 @@ class ParseAll
 
     public function parseDirectoryForTrl()
     {
+        // call twig parser
+        $twigParser = new ParseTwigForTrl($this->_directory);
+        $twigTrls = $twigParser->parse($this->_output);
+
         // call js parser
         $trlJsParser = new ParseJsForTrl($this->_directory);
         $jsTrls = $trlJsParser->parse($this->_output);
@@ -31,7 +35,7 @@ class ParseAll
         $trlPhpParser->setCodeDirectory($this->_directory);
         $phpTrls = $trlPhpParser->parseCodeDirectory($this->_output);
         $this->_errors = $trlPhpParser->getErrors();
-        return array_merge_recursive($jsTrls, $phpTrls);
+        return array_merge_recursive($jsTrls, $phpTrls, $twigTrls);
     }
 
     public function getErrors()
