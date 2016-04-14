@@ -95,7 +95,6 @@ class ParseTwigForTrl {
                 }
                 $trlElement = array(
                     'type' => $trlType,
-                    'error_short' => '',
                     'linenr' => $arguments[0]->getLine()
                 );
                 if (strpos($trlType, 'Kwf') !== false) {
