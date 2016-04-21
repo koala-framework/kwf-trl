@@ -107,7 +107,9 @@ class ParseTwigForTrl
                 } else {
                     $trlElement['source'] = 'web';
                 }
+                $supportedType = false;
                 if ($trlType == 'trlcp') {
+                    $supportedType = true;
                     if (!in_array(count($arguments), array(8))) {
                         $trlElement['error_short'] = self::ERROR_WRONG_NR_OF_ARGUMENTS;
                     } else {
@@ -116,6 +118,7 @@ class ParseTwigForTrl
                         $trlElement['plural'] = $arguments[5]->getAttribute('value');
                     }
                 } else if ($trlType == 'trlc') {
+                    $supportedType = true;
                     if (!in_array(count($arguments), array(4, 6))) {
                         $trlElement['error_short'] = self::ERROR_WRONG_NR_OF_ARGUMENTS;
                     } else {
@@ -123,6 +126,7 @@ class ParseTwigForTrl
                         $trlElement['text'] = $arguments[3]->getAttribute('value');
                     }
                 } else if ($trlType == 'trlp') {
+                    $supportedType = true;
                     if (!in_array(count($arguments), array(6))) {
                         $trlElement['error_short'] = self::ERROR_WRONG_NR_OF_ARGUMENTS;
                     } else {
@@ -130,13 +134,16 @@ class ParseTwigForTrl
                         $trlElement['plural'] = $arguments[3]->getAttribute('value');
                     }
                 } else if ($trlType == 'trl') {
+                    $supportedType = true;
                     if (!in_array(count($arguments), array(2, 4))) {
                         $trlElement['error_short'] = self::ERROR_WRONG_NR_OF_ARGUMENTS;
                     } else {
                         $trlElement['text'] = $arguments[1]->getAttribute('value');
                     }
                 }
-                $trlElements[] = $trlElement;
+                if ($supportedType) {
+                    $trlElements[] = $trlElement;
+                }
             }
         } else if ($node instanceof \Twig_Node) {
             foreach ($node->getIterator() as $childNode) {
