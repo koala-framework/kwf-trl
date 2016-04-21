@@ -3,7 +3,8 @@ namespace Kwf\Trl\Parse;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Console\Helper\ProgressBar;
 
-class ParseTwigForTrl {
+class ParseTwigForTrl
+{
     protected $_fileFinder;
     protected $_directory;
 
@@ -43,7 +44,8 @@ class ParseTwigForTrl {
         return $twig;
     }
 
-    public static function twigFunctionMockup($string) {
+    public static function twigFunctionMockup($string)
+    {
         return $string;
     }
 
@@ -74,7 +76,8 @@ class ParseTwigForTrl {
         return $trlElements;
     }
 
-    private function _process($node, $trlElements) {
+    private function _process($node, $trlElements)
+    {
         if ($node instanceof \Twig_Node_Expression_GetAttr && $node->getAttribute('type') == 'method') {
             $trlType = false;
             foreach ($node->getIterator() as $childNode) {
