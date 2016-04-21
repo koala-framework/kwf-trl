@@ -82,7 +82,7 @@ class ParseTwigForTrl
             $trlType = false;
             foreach ($node->getIterator() as $childNode) {
                 if ($childNode instanceof \Twig_Node_Expression_Constant
-                    && strpos($childNode->getAttribute('value'), 'trl') !== false
+                    && strpos($childNode->getAttribute('value'), 'trl') === 0
                 ) {
                     $trlType = $childNode->getAttribute('value');
                 }
