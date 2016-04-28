@@ -104,6 +104,7 @@ class ParseTwigForTrl
                     $trlElement['source'] = 'kwf';
                     $trlType = str_replace('KwfStatic', '', $trlType);
                     $trlType = str_replace('Kwf', '', $trlType);
+                    $trlElement['type'] = $trlType;
                 } else {
                     $trlElement['source'] = 'web';
                 }
