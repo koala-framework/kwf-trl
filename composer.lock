@@ -4,39 +4,41 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "bcc36c8f40114f07ca995a854f913051",
-    "content-hash": "57ace723177ef5a2134f8660206e1b09",
+    "hash": "db2df4e58e3668246e7153b1b29f56d7",
+    "content-hash": "f8b6098b932764e8de5175010a13e065",
     "packages": [
         {
             "name": "gitonomy/gitlib",
-            "version": "v0.1.7",
+            "version": "v0.1.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/gitonomy/gitlib.git",
-                "reference": "7a46107cfb8552b312101e0d5906e95d54d7ddc6"
+                "reference": "f575b8f7da917ade7890c6aa705fa22545690389"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/gitonomy/gitlib/zipball/7a46107cfb8552b312101e0d5906e95d54d7ddc6",
-                "reference": "7a46107cfb8552b312101e0d5906e95d54d7ddc6",
+                "url": "https://api.github.com/repos/gitonomy/gitlib/zipball/f575b8f7da917ade7890c6aa705fa22545690389",
+                "reference": "f575b8f7da917ade7890c6aa705fa22545690389",
                 "shasum": ""
             },
             "require": {
-                "symfony/process": "~2.4"
+                "symfony/process": "^2.3|^3.0"
             },
             "require-dev": {
-                "psr/log": "~1"
+                "psr/log": "^1.0"
             },
             "suggest": {
                 "psr/log": "Add some log"
             },
             "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0-dev"
+                }
+            },
             "autoload": {
-                "psr-0": {
-                    "Gitonomy\\Git": [
-                        "src/",
-                        "tests/"
-                    ]
+                "psr-4": {
+                    "Gitonomy\\Git\\": "src/Gitonomy/Git/"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -57,7 +59,7 @@
             ],
             "description": "Library for accessing git",
             "homepage": "http://gitonomy.com",
-            "time": "2014-07-13 19:02:31"
+            "time": "2015-12-01 22:25:57"
         },
         {
             "name": "koala-framework/composer-extra-assets",
@@ -199,16 +201,16 @@
         },
         {
             "name": "nikic/php-parser",
-            "version": "v1.0.2",
+            "version": "v1.4.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nikic/PHP-Parser.git",
-                "reference": "a8ffc6fcfcbae268656c8acf1298e378ac1ee5f1"
+                "reference": "f78af2c9c86107aa1a34cd1dbb5bbe9eeb0d9f51"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nikic/PHP-Parser/zipball/a8ffc6fcfcbae268656c8acf1298e378ac1ee5f1",
-                "reference": "a8ffc6fcfcbae268656c8acf1298e378ac1ee5f1",
+                "url": "https://api.github.com/repos/nikic/PHP-Parser/zipball/f78af2c9c86107aa1a34cd1dbb5bbe9eeb0d9f51",
+                "reference": "f78af2c9c86107aa1a34cd1dbb5bbe9eeb0d9f51",
                 "shasum": ""
             },
             "require": {
@@ -218,7 +220,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.0-dev"
+                    "dev-master": "1.4-dev"
                 }
             },
             "autoload": {
@@ -240,7 +242,7 @@
                 "parser",
                 "php"
             ],
-            "time": "2014-11-04 22:12:46"
+            "time": "2015-09-19 14:15:08"
         },
         {
             "name": "sepia/po-parser",
