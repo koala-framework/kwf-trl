@@ -4,7 +4,7 @@ namespace Kwf\Trl\Parse;
 class ParseAll
 {
     protected $_directory;
-    protected $_errors;
+    protected $_errors = array();
     protected $_output;
     protected $_ignoredFiles = array();
 
