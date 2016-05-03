@@ -145,6 +145,10 @@ class ParseTwigForTrl
                 if ($supportedType) {
                     $trlElements[] = $trlElement;
                 }
+            } else {
+                foreach ($node->getIterator() as $childNode) {
+                    $trlElements = $this->_process($childNode, $trlElements);
+                }
             }
         } else if ($node instanceof \Twig_Node) {
             foreach ($node->getIterator() as $childNode) {
