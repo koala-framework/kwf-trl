@@ -113,12 +113,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/koala-framework/kwf-trl-jsparser.git",
-                "reference": "c2674f70b5c04f5051533fc8ee79d00767bec3e7"
+                "reference": "ec7c498fa5244be62a456f6d977abe18379c634a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/koala-framework/kwf-trl-jsparser/zipball/c2674f70b5c04f5051533fc8ee79d00767bec3e7",
-                "reference": "c2674f70b5c04f5051533fc8ee79d00767bec3e7",
+                "url": "https://api.github.com/repos/koala-framework/kwf-trl-jsparser/zipball/ec7c498fa5244be62a456f6d977abe18379c634a",
+                "reference": "ec7c498fa5244be62a456f6d977abe18379c634a",
                 "shasum": ""
             },
             "require": {
@@ -141,7 +141,7 @@
             },
             "notification-url": "https://packagist.org/downloads/",
             "description": "Parses js code for trl-calls and returns list",
-            "time": "2016-04-05 14:21:09"
+            "time": "2016-06-01 09:02:35"
         },
         {
             "name": "mouf/nodejs-installer",

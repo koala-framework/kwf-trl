@@ -29,13 +29,16 @@ class ParseAll
         $trlJsParser = new ParseJsForTrl($this->_directory);
         $jsTrls = $trlJsParser->parse($this->_output);
 
+        $trlUnderscoreTplParser = new ParseUnderscoreTplForTrl($this->_directory);
+        $underscoreTplTrls = $trlUnderscoreTplParser->parse($this->_output);
+
         // call php parser
         $trlPhpParser = new ParsePhpForTrl;
         $trlPhpParser->setIgnoredFiles($this->_ignoredFiles);
         $trlPhpParser->setCodeDirectory($this->_directory);
         $phpTrls = $trlPhpParser->parseCodeDirectory($this->_output);
         $this->_errors = $trlPhpParser->getErrors();
-        return array_merge_recursive($jsTrls, $phpTrls, $twigTrls);
+        return array_merge_recursive($jsTrls, $phpTrls, $twigTrls, $underscoreTplTrls);
     }
 
     public function getErrors()
