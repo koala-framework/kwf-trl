@@ -59,7 +59,7 @@ class Parser
         $trlElements = array();
         $errors = array();
         $repository = new Repository($this->_directory);
-        $repository->run('fetch');
+        $repository->run('fetch', array('origin'));
         if ($this->_kwfPoFilePath) {
             $this->_output->writeln('<info>Iterating over branches matching "^[1-9]+.[0-9]+$"</info>');
         } else {
