@@ -126,5 +126,13 @@ class Parser
                 $this->_output->writeln('  -------------------------------------');
             }
         }
+
+        $this->_output->writeln('');
+        $this->_output->writeln('Every branch has been parsed an data is collected in '.$this->_poFilePath);
+        $this->_output->writeln('');
+        $this->_output->writeln('1. Please check the mentioned Parse-Errors');
+        $this->_output->writeln('2. Upload and translate file from '.$this->_poFilePath.' to lingohub or translate in another way');
+        $this->_output->writeln('3. When using lingohub call "./vendor/bin/lingohub downloadTranslations" after translating');
+        $this->_output->writeln('');
     }
 }
