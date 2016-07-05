@@ -24,7 +24,6 @@ class ParseJsForTrl {
         $output->writeln('JS-Files:');
         $progress = new ProgressBar($output, $fileCount);
         foreach ($this->_fileFinder as $file) {
-            if (strpos($file, 'ext-lang-en.js') !== false) continue;
             $progress->advance();
             $trlElements = array_merge($trlElements, \Kwf_TrlJsParser_JsParser::parseContent($file->getContents()));
         }
