@@ -58,7 +58,7 @@ class ParsePhpForTrl {
         foreach ($this->_fileFinder as $file) {
             if (in_array($file, $this->_ignoredFiles)) continue;
             $progress->advance();
-            $this->_codeContent = $file->getContents();
+            $this->_codeContent = $this->_replaceShortOpenTags($file->getContents());
             try {
                 foreach ($this->parseContent() as $trlElementOfFile) {
                     $trlElementOfFile['file'] = $file->getRealpath();
@@ -74,6 +74,11 @@ class ParsePhpForTrl {
         $progress->finish();
         $output->writeln('');
         return $trlElements;
+    }
+
+    public function _replaceShortOpenTags($content)
+    {
+        return preg_replace('#<\?(?!php|=)#', '<?php ', $content);
     }
 
     public function parseContent()
