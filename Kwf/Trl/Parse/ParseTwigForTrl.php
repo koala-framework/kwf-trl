@@ -39,6 +39,7 @@ class ParseTwigForTrl
         $twig->addFilter(new \Twig_SimpleFilter('mailEncodeText', array('ParseTwigForTrl', 'twigFunctionMockup')));
         $twig->addFilter(new \Twig_SimpleFilter('mailLink', array('ParseTwigForTrl', 'twigFunctionMockup')));
         $twig->addFilter(new \Twig_SimpleFilter('hiddenOptions', array('ParseTwigForTrl', 'twigFunctionMockup')));
+        $twig->addFilter(new \Twig_SimpleFilter('fileSize', array('ParseTwigForTrl', 'twigFunctionMockup')));
 
         $twig->addFunction('includeCode', new \Twig_SimpleFunction('includeCode',  array('ParseTwigForTrl', 'twigFunctionMockup')));
         return $twig;
