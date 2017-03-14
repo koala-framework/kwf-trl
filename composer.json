@@ -8,7 +8,8 @@
         "sepia/po-parser": "~4.2",
         "nikic/php-parser": "~1.0",
         "gitonomy/gitlib": "~0.1",
-        "twig/twig": "~1.16"
+        "twig/twig": "~1.16",
+        "psr/log": "~1.0"
     },
     "require-dev": {
         "phpunit/phpunit": "3.7.*"

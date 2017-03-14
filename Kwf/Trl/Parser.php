@@ -5,6 +5,9 @@ use Gitonomy\Git\Repository;
 use Kwf\Trl\Parse\ParseAll;
 use Kwf\Trl\Utils\PoFileGenerator;
 use Kwf\Trl\Utils\TrlElementsExtractor;
+use Psr\Log\LogLevel;
+use Symfony\Component\Console\Logger\ConsoleLogger;
+use Symfony\Component\Console\Output\OutputInterface;
 
 class Parser
 {
@@ -17,7 +20,7 @@ class Parser
 
     protected $_output;
 
-    function __construct($directory, $poFilePath, $source, $output, $kwfPoFilePath = false)
+    function __construct($directory, $poFilePath, $source, OutputInterface $output, $kwfPoFilePath = false)
     {
         $this->_kwfPoFilePath = $kwfPoFilePath;
         $this->_directory = $directory;
@@ -33,6 +36,11 @@ class Parser
 
     public function parse()
     {
+        $repositoryOptions = array(
+            'logger' => new ConsoleLogger($this->_output),
+            'environment_variables' => $_SERVER
+        );
+
         $kwfTrlElements = array();
         if ($this->_kwfPoFilePath) {
             $this->_output->writeln('<info>Reading kwf-po file</info>');
@@ -43,7 +51,7 @@ class Parser
 
         $initDir = getcwd();
         $this->_output->writeln('<info>Changing into directory</info>');
-        $repository = new Repository($this->_directory);
+        $repository = new Repository($this->_directory, $repositoryOptions);
         $wc = $repository->getWorkingCopy();
 
         if ($wc->getDiffPending()->getRawDiff() != ''
@@ -58,7 +66,7 @@ class Parser
 
         $trlElements = array();
         $errors = array();
-        $repository = new Repository($this->_directory);
+        $repository = new Repository($this->_directory, $repositoryOptions);
         $repository->run('fetch', array('origin'));
         if ($this->_kwfPoFilePath) {
             $this->_output->writeln('<info>Iterating over branches matching "^[1-9]+.[0-9]+$"</info>');
@@ -70,18 +78,33 @@ class Parser
             if (strpos($branchName, 'origin/') === false) continue;
             $splited = explode('/', $branchName);
             $isVersionNumber = preg_match('/^[0-9]+.[0-9]+$/i', $splited[1]);
-            if (sizeof($splited) >= 3) continue;
-            if (!$isVersionNumber && $splited[1] != 'master' && $splited[1] != 'production') continue;
+            if (sizeof($splited) >= 3) {
+                if ($this->_output->getVerbosity() >= OutputInterface::VERBOSITY_VERBOSE) {
+                    $this->_output->writeln("skip branch $branchName, doesn't look like a version number");
+                }
+                continue;
+            }
+            if (!$isVersionNumber && $splited[1] != 'master' && $splited[1] != 'production') {
+                if ($this->_output->getVerbosity() >= OutputInterface::VERBOSITY_VERBOSE) {
+                    $this->_output->writeln("skip branch $branchName, doesn't look like a version number");
+                }
+                continue;
+            }
 
-            if (!$this->_kwfPoFilePath && $isVersionNumber && version_compare($splited[1], '3.9', '<')) continue;
-
+            if (!$this->_kwfPoFilePath && $isVersionNumber && version_compare($splited[1], '3.9', '<')) {
+                if ($this->_output->getVerbosity() >= OutputInterface::VERBOSITY_VERBOSE) {
+                    $this->_output->writeln("skip branch $branchName, < 3.9");
+                }
+                continue;
+            }
             $this->_output->writeln("<info>Checking out branch: $branchName</info>");
             $wc->checkout($branchName);
             // parse package
             $this->_output->writeln('Parsing source directory...');
-            $parser = new ParseAll($this->_directory, $this->_output);
+            $parser = new ParseAll($this->_directory.'/PoiDealerWebsitePlugin/Kwc/DealerContent/Contact', $this->_output);
             $parser->setIgnoredFiles($this->_ignoredFiles);
             $trlElements = array_merge($parser->parseDirectoryForTrl(), $trlElements);
+
             $newErrors = $parser->getErrors();
             foreach ($newErrors as $key => $error) {
                 $newErrors[$key]['branch'] = $branchName;
