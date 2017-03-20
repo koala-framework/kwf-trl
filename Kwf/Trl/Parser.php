@@ -101,7 +101,7 @@ class Parser
             $wc->checkout($branchName);
             // parse package
             $this->_output->writeln('Parsing source directory...');
-            $parser = new ParseAll($this->_directory.'/PoiDealerWebsitePlugin/Kwc/DealerContent/Contact', $this->_output);
+            $parser = new ParseAll($this->_directory, $this->_output);
             $parser->setIgnoredFiles($this->_ignoredFiles);
             $trlElements = array_merge($parser->parseDirectoryForTrl(), $trlElements);
 
