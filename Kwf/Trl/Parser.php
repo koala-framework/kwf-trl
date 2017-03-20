@@ -16,16 +16,19 @@ class Parser
     protected $_poFilePath;
     protected $_source;
 
+    protected $_infoForKey;
+
     protected $_ignoredFiles = array();
 
     protected $_output;
 
-    function __construct($directory, $poFilePath, $source, OutputInterface $output, $kwfPoFilePath = false)
+    function __construct($directory, $poFilePath, $source, OutputInterface $output, $kwfPoFilePath = false, $infoForKey = array())
     {
         $this->_kwfPoFilePath = $kwfPoFilePath;
         $this->_directory = $directory;
         $this->_poFilePath = $poFilePath;
         $this->_source = $source;
+        $this->_infoForKey = $infoForKey;
         $this->_output = $output;
     }
 
@@ -48,6 +51,7 @@ class Parser
 
         // PARSE
         $this->_output->writeln('Parsing source directory...');
+        $this->_output->writeln('');
         $parser = new ParseAll($this->_directory, $this->_output);
         $parser->setIgnoredFiles($this->_ignoredFiles);
         $trlElements = $parser->parseDirectoryForTrl();
@@ -56,15 +60,28 @@ class Parser
 
 
         // OUTPUT RESULTS
+        if (count($this->_infoForKey)) {
+            $this->_output->writeln('');
+            $this->_output->writeln('---------------------------------------------------------');
+            $this->_output->writeln('');
+            $this->_output->writeln('Output source-info for key:');
+            $this->_output->writeln('');
+        }
         $filteredTrlElements = array();
         foreach ($trlElements as $trlElement) {
+            if (isset($trlElement['text']) && in_array($trlElement['text'], $this->_infoForKey)) {
+                var_dump($trlElement);
+            }
             if ($trlElement['source'] == $this->_source) {
                 $filteredTrlElements[] = $trlElement;
             }
         }
         $trlElements = $filteredTrlElements;
 
-        // generate po file
+
+        $this->_output->writeln('');
+        $this->_output->writeln('---------------------------------------------------------');
+        $this->_output->writeln('');
         $this->_output->writeln('Generate Po-File...');
         touch($this->_poFilePath);
         $this->_output->writeln($this->_poFilePath);
@@ -73,8 +90,12 @@ class Parser
         $poFile = $poFileGenerator->generatePoFileObject($this->_poFilePath);
         $poFile->writeFile($this->_poFilePath);
 
+
+        $this->_output->writeln('');
+        $this->_output->writeln('---------------------------------------------------------');
         $this->_output->writeln('');
         $this->_output->writeln('Trl Errors:');
+        $this->_output->writeln('');
         foreach ($trlElements as $trlElement) {
             if (isset($trlElement['error_short']) && $trlElement['error_short']) {
                 var_dump($trlElement);
