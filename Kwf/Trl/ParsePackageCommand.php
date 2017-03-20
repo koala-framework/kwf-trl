@@ -5,7 +5,7 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputArgument;
-use Kwf\Trl\Parser;
+use Kwf\Trl\ParseGitBranches;
 
 class ParsePackageCommand extends Command
 {
@@ -24,7 +24,7 @@ class ParsePackageCommand extends Command
         if (!is_dir($trlFolder)) {
             mkdir($trlFolder);
         }
-        $parseScript = new Parser($packagePath, "$trlFolder/en.po", 'kwf', $output, 'vendor/koala-framework/koala-framework/trl/en.po');
+        $parseScript = new ParseGitBranches($packagePath, "$trlFolder/en.po", 'kwf', $output, 'vendor/koala-framework/koala-framework/trl/en.po');
         $parseScript->parse();
     }
 }

@@ -5,7 +5,7 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputArgument;
-use Kwf\Trl\Parser;
+use Kwf\Trl\ParseGitBranches;
 
 class ParseKwfCommand extends Command
 {
@@ -23,7 +23,7 @@ class ParseKwfCommand extends Command
         if (!is_dir($trlFolder)) {
             mkdir($trlFolder);
         }
-        $parseScript = new Parser($packagePath, "$trlFolder/en.po", 'kwf', $output);
+        $parseScript = new ParseGitBranches($packagePath, "$trlFolder/en.po", 'kwf', $output);
         $parseScript->setIgnoredFiles(array(
             "$packagePath/Kwf/Trl.php",
             "$packagePath/Kwf/Component/Data.php",
