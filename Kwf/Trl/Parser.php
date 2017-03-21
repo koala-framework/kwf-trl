@@ -16,19 +16,19 @@ class Parser
     protected $_poFilePath;
     protected $_source;
 
-    protected $_infoForKey;
+    protected $_infoForMsgId;
 
     protected $_ignoredFiles = array();
 
     protected $_output;
 
-    function __construct($directory, $poFilePath, $source, OutputInterface $output, $kwfPoFilePath = false, $infoForKey = array())
+    function __construct($directory, $poFilePath, $source, OutputInterface $output, $kwfPoFilePath = false, $infoForMsgId = array())
     {
         $this->_kwfPoFilePath = $kwfPoFilePath;
         $this->_directory = $directory;
         $this->_poFilePath = $poFilePath;
         $this->_source = $source;
-        $this->_infoForKey = $infoForKey;
+        $this->_infoForMsgId = $infoForMsgId;
         $this->_output = $output;
     }
 
@@ -60,7 +60,7 @@ class Parser
 
 
         // OUTPUT RESULTS
-        if (count($this->_infoForKey)) {
+        if (count($this->_infoForMsgId)) {
             $this->_output->writeln('');
             $this->_output->writeln('---------------------------------------------------------');
             $this->_output->writeln('');
@@ -69,7 +69,7 @@ class Parser
         }
         $filteredTrlElements = array();
         foreach ($trlElements as $trlElement) {
-            if (isset($trlElement['text']) && in_array($trlElement['text'], $this->_infoForKey)) {
+            if (isset($trlElement['text']) && in_array($trlElement['text'], $this->_infoForMsgId)) {
                 var_dump($trlElement);
             }
             if ($trlElement['source'] == $this->_source) {

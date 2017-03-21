@@ -13,19 +13,19 @@ class ParseWorkingDirectoryCommand extends Command
     {
         $this->setName('parseWD')
             ->setDescription('Parse your working directory code for trl function calls')
-            ->addOption('key', 'k', InputOption::VALUE_OPTIONAL+InputOption::VALUE_IS_ARRAY, 'Keys to show source-infos');
+            ->addOption('msgId', 'm', InputOption::VALUE_OPTIONAL+InputOption::VALUE_IS_ARRAY, 'msgIds to show source-infos');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $keys = $input->getOption('key');
+        $msgIds = $input->getOption('msgId');
         $config = parse_ini_file('config.ini');
         $webcodeLanguage = $config['webCodeLanguage'];
         $poFilePath = "trl/$webcodeLanguage.po";
         if (!is_dir('trl')) {
             mkdir('trl');
         }
-        $parseScript = new Parser(getcwd(), $poFilePath, 'web', $output, false, $keys);
+        $parseScript = new Parser(getcwd(), $poFilePath, 'web', $output, false, $msgIds);
         $parseScript->parse();
     }
 }
