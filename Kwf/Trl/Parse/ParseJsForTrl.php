@@ -14,7 +14,7 @@ class ParseJsForTrl {
         foreach ($excludeFolders as $excludeFolder) {
             $this->_fileFinder->exclude($excludeFolder);
         }
-        $this->_fileFinder->name('*.js');
+        $this->_fileFinder->name('/\.*\.(js|jsx)$/');
     }
 
     public function parse($output)
@@ -25,7 +25,9 @@ class ParseJsForTrl {
         $progress = new ProgressBar($output, $fileCount);
         foreach ($this->_fileFinder as $file) {
             $progress->advance();
-            $trlElements = array_merge($trlElements, \Kwf_TrlJsParser_JsParser::parseContent($file->getContents()));
+
+            $isJsx = $file->getExtension() === 'jsx';
+            $trlElements = array_merge($trlElements, \Kwf_TrlJsParser_JsParser::parseContent($file->getContents(), $isJsx));
         }
         $progress->finish();
         $output->writeln('');
