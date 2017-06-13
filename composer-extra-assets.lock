@@ -3,9 +3,14 @@
     "npm-dependencies": {
         "koala-framework/kwf-trl-jsparser": {
             "esprima": {
-                "version": "1.2.2",
-                "from": "esprima@1.2.2",
-                "resolved": "https://registry.npmjs.org/esprima/-/esprima-1.2.2.tgz"
+                "version": "4.0.0",
+                "from": "esprima@>=4.0.0 <5.0.0",
+                "resolved": "https://registry.npmjs.org/esprima/-/esprima-4.0.0.tgz"
+            },
+            "minimist": {
+                "version": "1.2.0",
+                "from": "minimist@>=1.2.0 <2.0.0",
+                "resolved": "https://registry.npmjs.org/minimist/-/minimist-1.2.0.tgz"
             }
         }
     }

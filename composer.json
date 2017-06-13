@@ -2,7 +2,7 @@
     "name": "koala-framework/kwf-trl",
     "description": "Translation scripts for Koala Framework based applications",
     "require": {
-        "koala-framework/kwf-trl-jsparser": "1.0.x-dev",
+        "koala-framework/kwf-trl-jsparser": "1.1.x-dev",
         "symfony/console": "~2.6",
         "symfony/finder": "~2.6",
         "sepia/po-parser": "~4.2",
