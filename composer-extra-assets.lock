@@ -1,0 +1,12 @@
+{
+    "bower-dependencies": [],
+    "npm-dependencies": {
+        "koala-framework/kwf-trl-jsparser": {
+            "esprima": {
+                "version": "1.2.2",
+                "from": "esprima@1.2.2",
+                "resolved": "https://registry.npmjs.org/esprima/-/esprima-1.2.2.tgz"
+            }
+        }
+    }
+}
