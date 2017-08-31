@@ -76,27 +76,32 @@ class ParseGitBranches
         foreach ($repository->getReferences()->getBranches() as $branch) {
             $branchName = $branch->getName();
             if (strpos($branchName, 'origin/') === false) continue;
-            $splited = explode('/', $branchName);
-            $isVersionNumber = preg_match('/^[0-9]+.[0-9]+$/i', $splited[1]);
-            if (sizeof($splited) >= 3) {
-                if ($this->_output->getVerbosity() >= OutputInterface::VERBOSITY_VERBOSE) {
-                    $this->_output->writeln("skip branch $branchName, doesn't look like a version number");
+            // package + kwf parse only versionNumber, production and master branches
+            // web should parse all branches (like feature-branches and separate-web-branches)
+            if ($this->_source != 'web') {
+                $splited = explode('/', $branchName);
+                $isVersionNumber = preg_match('/^[0-9]+.[0-9]+$/i', $splited[1]);
+                if (sizeof($splited) >= 3) {
+                    if ($this->_output->getVerbosity() >= OutputInterface::VERBOSITY_VERBOSE) {
+                        $this->_output->writeln("skip branch $branchName, doesn't look like a version number");
+                    }
+                    continue;
                 }
-                continue;
-            }
-            if (!$isVersionNumber && $splited[1] != 'master' && $splited[1] != 'production') {
-                if ($this->_output->getVerbosity() >= OutputInterface::VERBOSITY_VERBOSE) {
-                    $this->_output->writeln("skip branch $branchName, doesn't look like a version number");
+                if (!$isVersionNumber && $splited[1] != 'master' && $splited[1] != 'production') {
+                    if ($this->_output->getVerbosity() >= OutputInterface::VERBOSITY_VERBOSE) {
+                        $this->_output->writeln("skip branch $branchName, doesn't look like a version number");
+                    }
+                    continue;
                 }
-                continue;
+
+                if (!$this->_kwfPoFilePath && $isVersionNumber && version_compare($splited[1], '3.9', '<')) {
+                    if ($this->_output->getVerbosity() >= OutputInterface::VERBOSITY_VERBOSE) {
+                        $this->_output->writeln("skip branch $branchName, < 3.9");
+                    }
+                    continue;
+                }
             }
 
-            if (!$this->_kwfPoFilePath && $isVersionNumber && version_compare($splited[1], '3.9', '<')) {
-                if ($this->_output->getVerbosity() >= OutputInterface::VERBOSITY_VERBOSE) {
-                    $this->_output->writeln("skip branch $branchName, < 3.9");
-                }
-                continue;
-            }
             $this->_output->writeln("<info>Checking out branch: $branchName</info>");
             $wc->checkout($branchName);
             // parse package
