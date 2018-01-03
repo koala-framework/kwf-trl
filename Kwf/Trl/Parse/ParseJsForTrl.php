@@ -10,7 +10,7 @@ class ParseJsForTrl {
         $this->_fileFinder = new Finder();
         $this->_fileFinder->files();
         $this->_fileFinder->in($directory);
-        $excludeFolders = array('vendor', 'tests', 'cache', 'node_modules');
+        $excludeFolders = array('vendor', 'tests', 'cache', 'node_modules', 'node_modules_build');
         foreach ($excludeFolders as $excludeFolder) {
             $this->_fileFinder->exclude($excludeFolder);
         }
