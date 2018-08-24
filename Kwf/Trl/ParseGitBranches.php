@@ -17,6 +17,7 @@ class ParseGitBranches
     protected $_source;
 
     protected $_ignoredFiles = array();
+    protected $_ignoredBranches = array();
 
     protected $_output;
 
@@ -27,6 +28,11 @@ class ParseGitBranches
         $this->_poFilePath = $poFilePath;
         $this->_source = $source;
         $this->_output = $output;
+    }
+
+    public function setIgnoredBranches($branches)
+    {
+        $this->_ignoredBranches = $branches;
     }
 
     public function setIgnoredFiles($paths)
@@ -76,6 +82,8 @@ class ParseGitBranches
         foreach ($repository->getReferences()->getBranches() as $branch) {
             $branchName = $branch->getName();
             if (strpos($branchName, 'origin/') === false) continue;
+            if (in_array(str_replace('origin/', '', $branchName), $this->_ignoredBranches)) continue;
+
             // package + kwf parse only versionNumber, production and master branches
             // web should parse all branches (like feature-branches and separate-web-branches)
             if ($this->_source != 'web') {
