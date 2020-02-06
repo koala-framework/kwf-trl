@@ -3,14 +3,14 @@
     "npm-dependencies": {
         "koala-framework/kwf-trl-jsparser": {
             "esprima": {
-                "version": "4.0.0",
-                "from": "esprima@>=4.0.0 <5.0.0",
-                "resolved": "https://registry.npmjs.org/esprima/-/esprima-4.0.0.tgz"
+                "version": "4.0.1",
+                "resolved": "https://registry.npmjs.org/esprima/-/esprima-4.0.1.tgz",
+                "integrity": "sha512-eGuFFw7Upda+g4p+QHvnW0RyTX/SVeJBDM/gCtMARO0cLuT2HcEKnTPvhjV6aGeqrCB/sbNop0Kszm0jsaWU4A=="
             },
             "minimist": {
                 "version": "1.2.0",
-                "from": "minimist@>=1.2.0 <2.0.0",
-                "resolved": "https://registry.npmjs.org/minimist/-/minimist-1.2.0.tgz"
+                "resolved": "https://registry.npmjs.org/minimist/-/minimist-1.2.0.tgz",
+                "integrity": "sha1-o1AIsg9BOD7sH7kU9M1d95omQoQ="
             }
         }
     }
