@@ -5,6 +5,7 @@ use Symfony\Component\Console\Helper\ProgressBar;
 
 class ParseJsForTrl {
     protected $_fileFinder;
+    protected $_errors;
     public function __construct($directory)
     {
         $this->_fileFinder = new Finder();
@@ -15,6 +16,7 @@ class ParseJsForTrl {
             $this->_fileFinder->exclude($excludeFolder);
         }
         $this->_fileFinder->name('/\.*\.(js|jsx)$/');
+        $this->_errors = array();
     }
 
     public function parse($output)
@@ -27,10 +29,25 @@ class ParseJsForTrl {
             $progress->advance();
 
             $isJsx = $file->getExtension() === 'jsx';
-            $trlElements = array_merge($trlElements, \Kwf_TrlJsParser_JsParser::parseContent($file->getContents(), $isJsx));
+            $trlElementsOfCurrentFile = array();
+            try {
+                $trlElementsOfCurrentFile = \Kwf_TrlJsParser_JsParser::parseContent($file->getContents(), $isJsx);
+            } catch (\Exception $e) {
+                $this->_errors[] = array(
+                    'error' =>$e,
+                    'file' => $file->getRealPath()
+                );
+                $output->writeln("Parsing js file failed: $filePath | ". $e->getMessage());
+            }
+            $trlElements = array_merge($trlElements, $trlElementsOfCurrentFile);
         }
         $progress->finish();
         $output->writeln('');
         return $trlElements;
+    }
+
+    public function getErrors()
+    {
+        return $this->_errors;
     }
 }

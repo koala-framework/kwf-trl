@@ -147,7 +147,7 @@ class ParseGitBranches
 
         if (count($errors)) {
             $this->_output->writeln('');
-            $this->_output->writeln('Php Parse-Errors:');
+            $this->_output->writeln('Parse-Errors:');
             foreach ($errors as $error) {
                 $this->_output->writeln('  Branch: '.$error['branch'].' | File: '.$error['file']);
                 $this->_output->writeln('    Error:'.$error['error']->getMessage());

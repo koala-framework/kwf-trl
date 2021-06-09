@@ -28,6 +28,7 @@ class ParseAll
         // call js parser
         $trlJsParser = new ParseJsForTrl($this->_directory);
         $jsTrls = $trlJsParser->parse($this->_output);
+        $this->_errors = array_merge($this->_errors, $trlJsParser->getErrors());
 
         $trlUnderscoreTplParser = new ParseUnderscoreTplForTrl($this->_directory);
         $underscoreTplTrls = $trlUnderscoreTplParser->parse($this->_output);
@@ -37,7 +38,7 @@ class ParseAll
         $trlPhpParser->setIgnoredFiles($this->_ignoredFiles);
         $trlPhpParser->setCodeDirectory($this->_directory);
         $phpTrls = $trlPhpParser->parseCodeDirectory($this->_output);
-        $this->_errors = $trlPhpParser->getErrors();
+        $this->_errors = array_merge($this->_errors, $trlPhpParser->getErrors());
         return array_merge_recursive($jsTrls, $phpTrls, $twigTrls, $underscoreTplTrls);
     }
 
