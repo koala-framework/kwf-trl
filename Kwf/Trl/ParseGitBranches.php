@@ -20,13 +20,14 @@ class ParseGitBranches
 
     protected $_output;
 
-    function __construct($directory, $poFilePath, $source, OutputInterface $output, $kwfPoFilePath = false)
+    function __construct($directory, $poFilePath, $source, OutputInterface $output, $kwfPoFilePath = false, $branches = null)
     {
         $this->_kwfPoFilePath = $kwfPoFilePath;
         $this->_directory = $directory;
         $this->_poFilePath = $poFilePath;
         $this->_source = $source;
         $this->_output = $output;
+        $this->_branches = $branches;
     }
 
     public function setIgnoredFiles($paths)
@@ -73,8 +74,14 @@ class ParseGitBranches
         } else {
             $this->_output->writeln('<info>Iterating over branches matching "^[3-9]+.[0-9]+$" and >=3.9</info>');
         }
-        foreach ($repository->getReferences()->getBranches() as $branch) {
-            $branchName = $branch->getName();
+
+        if ($this->_branches) {
+            $branches = $this->_branches;
+        } else {
+            $branches = $repository->getReferences()->getBranches();
+        }
+        foreach ($branches as $branch) {
+            $branchName = $this->_branches ? 'origin/' . $branch : $branch->getName();
             if (strpos($branchName, 'origin/') === false) continue;
             // package + kwf parse only versionNumber, production and master branches
             // web should parse all branches (like feature-branches and separate-web-branches)
