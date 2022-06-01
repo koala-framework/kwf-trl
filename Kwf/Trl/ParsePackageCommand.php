@@ -24,7 +24,7 @@ class ParsePackageCommand extends Command
         if (!is_dir($trlFolder)) {
             mkdir($trlFolder);
         }
-        $parseScript = new ParseGitBranches($packagePath, "$trlFolder/en.po", 'kwf', $output, 'vendor/koala-framework/koala-framework/trl/en.po');
+        $parseScript = new ParseGitBranches($packagePath, "$trlFolder/en.po", 'kwf', $output, true);
         $parseScript->parse();
     }
 }
