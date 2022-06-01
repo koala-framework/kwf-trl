@@ -25,7 +25,7 @@ class ParseCurrentPackageCommand extends Command
         if (!is_dir('trl')) {
             mkdir('trl');
         }
-        $parseScript = new ParseGitBranches(getcwd(), $poFilePath, 'kwf', $output, false, $branches);
+        $parseScript = new ParseGitBranches(getcwd(), $poFilePath, 'kwf', $output, true, $branches);
         $parseScript->parse();
     }
 }
