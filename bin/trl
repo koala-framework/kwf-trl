@@ -11,6 +11,7 @@ foreach ($files as $file) {
     }
 }
 
+use Kwf\Trl\ParseCurrentPackageCommand;
 use Symfony\Component\Console\Application;
 use Kwf\Trl\ParseWebCommand;
 use Kwf\Trl\ParsePackageCommand;
@@ -20,6 +21,7 @@ use Kwf\Trl\ParseWorkingDirectoryCommand;
 $application = new Application('kwf-trl', '0.1');
 $application->add(new ParseWebCommand);
 $application->add(new ParsePackageCommand);
+$application->add(new ParseCurrentPackageCommand());
 $application->add(new ParseKwfCommand);
 $application->add(new ParseWorkingDirectoryCommand);
 $application->run();

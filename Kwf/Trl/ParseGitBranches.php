@@ -85,7 +85,7 @@ class ParseGitBranches
             if (strpos($branchName, 'origin/') === false) continue;
             // package + kwf parse only versionNumber, production and master branches
             // web should parse all branches (like feature-branches and separate-web-branches)
-            if ($this->_source != 'web') {
+            if ($this->_source != 'web' && !$this->_branches) {
                 $splited = explode('/', $branchName);
                 $isVersionNumber = preg_match('/^[0-9]+.[0-9]+$/i', $splited[1]);
                 if (sizeof($splited) >= 3) {
