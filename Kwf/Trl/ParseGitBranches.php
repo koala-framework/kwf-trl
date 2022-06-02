@@ -11,7 +11,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class ParseGitBranches
 {
-    protected $_kwfPoFilePath;
+    protected $_useKwfPoFile;
     protected $_directory;
     protected $_poFilePath;
     protected $_source;
@@ -20,9 +20,9 @@ class ParseGitBranches
 
     protected $_output;
 
-    function __construct($directory, $poFilePath, $source, OutputInterface $output, $kwfPoFilePath = false, $branches = null)
+    function __construct($directory, $poFilePath, $source, OutputInterface $output, $useKwfPoFile = false, $branches = null)
     {
-        $this->_kwfPoFilePath = $kwfPoFilePath;
+        $this->_useKwfPoFile = $useKwfPoFile;
         $this->_directory = $directory;
         $this->_poFilePath = $poFilePath;
         $this->_source = $source;
@@ -43,9 +43,9 @@ class ParseGitBranches
         );
 
         $kwfTrlElements = array();
-        if ($this->_kwfPoFilePath) {
+        if ($this->_useKwfPoFile) {
             $this->_output->writeln('<info>Reading kwf-po file</info>');
-            $kwfPoFile = \Sepia\PoParser::parseFile($this->_kwfPoFilePath);
+            $kwfPoFile = \Sepia\PoParser::parseString(file_get_contents('http://trl.koala-framework.org/api/v1/vivid-planet/koala-framework/en'));
             $trlElementsExtractor = new TrlElementsExtractor($kwfPoFile);
             $kwfTrlElements = $trlElementsExtractor->extractTrlElements();
         }
@@ -69,7 +69,7 @@ class ParseGitBranches
         $errors = array();
         $repository = new Repository($this->_directory, $repositoryOptions);
         $repository->run('fetch', array('origin'));
-        if ($this->_kwfPoFilePath) {
+        if ($this->_useKwfPoFile) {
             $this->_output->writeln('<info>Iterating over branches matching "^[1-9]+.[0-9]+$"</info>');
         } else {
             $this->_output->writeln('<info>Iterating over branches matching "^[3-9]+.[0-9]+$" and >=3.9</info>');
@@ -85,7 +85,7 @@ class ParseGitBranches
             if (strpos($branchName, 'origin/') === false) continue;
             // package + kwf parse only versionNumber, production and master branches
             // web should parse all branches (like feature-branches and separate-web-branches)
-            if ($this->_source != 'web') {
+            if ($this->_source != 'web' && !$this->_branches) {
                 $splited = explode('/', $branchName);
                 $isVersionNumber = preg_match('/^[0-9]+.[0-9]+$/i', $splited[1]);
                 if (sizeof($splited) >= 3) {
@@ -101,7 +101,7 @@ class ParseGitBranches
                     continue;
                 }
 
-                if (!$this->_kwfPoFilePath && $isVersionNumber && version_compare($splited[1], '3.9', '<')) {
+                if (!$this->_useKwfPoFile && $isVersionNumber && version_compare($splited[1], '3.9', '<')) {
                     if ($this->_output->getVerbosity() >= OutputInterface::VERBOSITY_VERBOSE) {
                         $this->_output->writeln("skip branch $branchName, < 3.9");
                     }
