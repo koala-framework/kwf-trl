@@ -19,9 +19,7 @@ class ParseCurrentPackageCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $branches = $input->getOption('branches') ? explode(',', $input->getOption('branches')) : null;
-        $config = parse_ini_file('config.ini');
-        $webcodeLanguage = $config['webCodeLanguage'];
-        $poFilePath = "trl/$webcodeLanguage.po";
+        $poFilePath = "trl/en.po";
         if (!is_dir('trl')) {
             mkdir('trl');
         }
