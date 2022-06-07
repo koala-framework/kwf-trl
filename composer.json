@@ -5,7 +5,7 @@
         "koala-framework/kwf-trl-jsparser": "1.2.x-dev",
         "symfony/console": "~2.6",
         "symfony/finder": "~2.6",
-        "sepia/po-parser": "~4.2",
+        "sepia/po-parser": "6.0.1",
         "nikic/php-parser": "~1.0",
         "gitonomy/gitlib": "~0.1",
         "twig/twig": "~1.16",
