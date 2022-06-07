@@ -37,7 +37,7 @@ class ParseJsForTrl {
                     'error' =>$e,
                     'file' => $file->getRealPath()
                 );
-                $output->writeln("Parsing js file failed: $filePath | ". $e->getMessage());
+                $output->writeln("Parsing js file failed: " . $file->getRealPath() . " | " . $e->getMessage());
             }
             $trlElements = array_merge($trlElements, $trlElementsOfCurrentFile);
         }
